@@ -1,7 +1,7 @@
 #include "define.h"
 #include "title.h"
 #include "ImageLayer.h"
-ImageLayer imageLayer = DEFAULT_IMAGE_LAYER;
+ImageLayer imageLayer = { NULL, 0, RGB(0,0,0) , NULL, NULL,_initialize, _renderAll, _renderAndFadeIn, _renderAndFadeOut, NULL };
 
 void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) {
 	if (weight == 0) weight = 900;
