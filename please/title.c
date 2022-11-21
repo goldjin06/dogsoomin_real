@@ -6,11 +6,11 @@ INPUT_RECORD rec;
 DWORD dwNOER;
 HANDLE CIN = 0;
 
-void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) { // ì´ë¯¸ì§€ ìœ„ì— ê¸€ì ë„ìš°ëŠ” í•¨ìˆ˜
+void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) { // ÀÌ¹ÌÁö À§¿¡ ±ÛÀÚ ¶ç¿ì´Â ÇÔ¼ö
 	if (weight == 0) weight = 900;
 	size = (int)(size * RESOLUTION_MULTIPLIER);
 	const HFONT font = CreateFont(size, 0, angle, 0, weight, 0, 0, 0, HANGEUL_CHARSET,
-		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("êµ´ë¦¼"));
+		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("±¼¸²"));
 
 	SelectObject(hdc, font);
 	SetBkMode(hdc, TRANSPARENT);
@@ -27,27 +27,27 @@ void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, 
 	DeleteObject(font);
 }
 
-void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) { // ì´ë¯¸ì§€ ìœ„ì— ê¸€ì ë„ìš°ëŠ” í•¨ìˆ˜
+void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) { // ÀÌ¹ÌÁö À§¿¡ ±ÛÀÚ ¶ç¿ì´Â ÇÔ¼ö
 	printTextWithAngle(hdc, x, y, size, weight, 0, textColor, align, text);
 }
 
-void initLayer() { // ì´ë¯¸ì§€ë ˆì´ì–´ ì´ˆê¸°í™”
+void initLayer() { // ÀÌ¹ÌÁö·¹ÀÌ¾î ÃÊ±âÈ­
 	imageLayer.initialize(&imageLayer);
 	imageLayer.transparentColor = RGB(0, 255, 0);
 }
 
-/********************íƒ€ì´í‹€ ì¥ë©´*************************/
+/********************Å¸ÀÌÆ² Àå¸é*************************/
 void showTitle() {
     Sleep(500);
 
     initLayer();
     Image images[7] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ì´ë¯¸ì§€ ì´ë¦„, ì‹œì‘ xì¢Œí‘œ, ì‹œì‘ yì¢Œí‘œ, í¬ê¸° ë°°ìœ¨(ì“°ì§€ ì•Šìœ¼ë©´ ê¸°ë³¸ê°’ì¸ 16ì´ ë“¤ì–´ê°)}
+        {"resource/background/start_background.bmp", 0, 0}, //{ÀÌ¹ÌÁö ÀÌ¸§, ½ÃÀÛ xÁÂÇ¥, ½ÃÀÛ yÁÂÇ¥, Å©±â ¹èÀ²(¾²Áö ¾ÊÀ¸¸é ±âº»°ªÀÎ 16ÀÌ µé¾î°¨)}
         {"resource/title/start_button.bmp", 700, 500},
         {"resource/title/title_text.bmp", 250, 50},
-    }; //ë°°ì—´ì˜ ì²« ì›ì†Œê°€ ê°€ì¥ ì•„ë˜ ê·¸ë ¤ì§„ë‹¤.
+    }; //¹è¿­ÀÇ Ã¹ ¿ø¼Ò°¡ °¡Àå ¾Æ·¡ ±×·ÁÁø´Ù.
 
-    imageLayer.imageCount = 4; //images ë°°ì—´ì˜ í¬ê¸°ë³´ë‹¤ ì‘ê±°ë‚˜ ê°™ì•„ì•¼ í•œë‹¤.
+    imageLayer.imageCount = 4; //images ¹è¿­ÀÇ Å©±âº¸´Ù ÀÛ°Å³ª °°¾Æ¾ß ÇÑ´Ù.
     imageLayer.images = images;
 
     imageLayer.renderAll(&imageLayer);
@@ -55,8 +55,8 @@ void showTitle() {
     int key;
     while (1) {
         key = getch();
-        //mouse_x = rec.Event.MouseEvent.dwMousePosition.X; // Xê°’ ë°›ì•„ì˜´
-        //mouse_y = rec.Event.MouseEvent.dwMousePosition.Y; // Yê°’ ë°›ì•„ì˜´
+        //mouse_x = rec.Event.MouseEvent.dwMousePosition.X; // X°ª ¹Ş¾Æ¿È
+        //mouse_y = rec.Event.MouseEvent.dwMousePosition.Y; // Y°ª ¹Ş¾Æ¿È
         //if (mouse_x >= 200/8 && mouse_x <= 235/8 && mouse_y >= 500/16 && mouse_y <= 535/16 && mouseOn == 0) {
         if (key == 13 && mouseOn == 1) {
             //images[1].fileName = "resource/title/start_button.bmp";
@@ -74,46 +74,46 @@ void showTitle() {
     }
 }
 
-/********************ë¶ˆëŸ¬ì˜¤ê¸° / ìƒˆë¡œí•˜ê¸° ì¥ë©´*************************/
-void newNickname(FILE* fp, char* nn, ImageLayer layer) { // ìƒˆë¡œ ë‹‰ë„¤ì„ ë§Œë“¤ê¸°
+/********************ºÒ·¯¿À±â / »õ·ÎÇÏ±â Àå¸é*************************/
+void newNickname(FILE* fp, char* nn, ImageLayer layer) { // »õ·Î ´Ğ³×ÀÓ ¸¸µé±â
 
     initLayer();
 
     Image images[5] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ì´ë¯¸ì§€ ì´ë¦„, ì‹œì‘ xì¢Œí‘œ, ì‹œì‘ yì¢Œí‘œ, í¬ê¸° ë°°ìœ¨(ì“°ì§€ ì•Šìœ¼ë©´ ê¸°ë³¸ê°’ì¸ 16ì´ ë“¤ì–´ê°)}
+        {"resource/background/start_background.bmp", 0, 0}, //{ÀÌ¹ÌÁö ÀÌ¸§, ½ÃÀÛ xÁÂÇ¥, ½ÃÀÛ yÁÂÇ¥, Å©±â ¹èÀ²(¾²Áö ¾ÊÀ¸¸é ±âº»°ªÀÎ 16ÀÌ µé¾î°¨)}
         {"resource/text/textarea.bmp", 150, 300}
-    }; //ë°°ì—´ì˜ ì²« ì›ì†Œê°€ ê°€ì¥ ì•„ë˜ ê·¸ë ¤ì§„ë‹¤.
+    }; //¹è¿­ÀÇ Ã¹ ¿ø¼Ò°¡ °¡Àå ¾Æ·¡ ±×·ÁÁø´Ù.
     imageLayer.renderAll(&imageLayer);
     int len = 0;
     char pressedKey;
-    printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("ë‹¹ì‹ ì˜ ì´ë¦„ì„ ì •í•´ì£¼ì„¸ìš”. (8~14ìì˜ ì˜ì–´ì™€ íŠ¹ìˆ˜ê¸°í˜¸ë§Œ ê°€ëŠ¥í•©ë‹ˆë‹¤.)"));
+    printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("´ç½ÅÀÇ ÀÌ¸§À» Á¤ÇØÁÖ¼¼¿ä. (8~14ÀÚÀÇ ¿µ¾î¿Í Æ¯¼ö±âÈ£¸¸ °¡´ÉÇÕ´Ï´Ù.)"));
 
     while (3) {
         //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 
         initLayer();
         imageLayer.renderAll(&imageLayer);
-        printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("ë‹¹ì‹ ì˜ ì´ë¦„ì„ ì •í•´ì£¼ì„¸ìš”.(8~14ìì˜ ì˜ì–´ë§Œ ê°€ëŠ¥í•©ë‹ˆë‹¤.)"));
-        printText(layer._consoleDC, 300, 550, 60, 0, RGB(0, 0, 255), TA_LEFT, ("%s", nn)); // ì§€ê¸ˆê¹Œì§€ ì“´ ë‹‰ë„¤ì„ ì¶œë ¥
-        if (len != 0) printText(layer._consoleDC, 300, 650, 60, 0, RGB(0, 0, 0), TA_LEFT, ("ë‹¤ ì •í–ˆë‹¤ë©´ ì—”í„°ë¥¼ ëˆŒëŸ¬ì£¼ì„¸ìš”."));
+        printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("´ç½ÅÀÇ ÀÌ¸§À» Á¤ÇØÁÖ¼¼¿ä.(8~14ÀÚÀÇ ¿µ¾î¸¸ °¡´ÉÇÕ´Ï´Ù.)"));
+        printText(layer._consoleDC, 300, 550, 60, 0, RGB(0, 0, 255), TA_LEFT, ("%s", nn)); // Áö±İ±îÁö ¾´ ´Ğ³×ÀÓ Ãâ·Â
+        if (len != 0) printText(layer._consoleDC, 300, 650, 60, 0, RGB(0, 0, 0), TA_LEFT, ("´Ù Á¤Çß´Ù¸é ¿£ÅÍ¸¦ ´­·¯ÁÖ¼¼¿ä."));
 
 
-        pressedKey = _getch(); // í‚¤ë³´ë“œ ì…ë ¥ë°›ê¸°
+        pressedKey = _getch(); // Å°º¸µå ÀÔ·Â¹Ş±â
 
         if (pressedKey == 13) {
-            if (len == 0) continue; // ì…ë ¥ë°›ì€ê²Œ ì—†ìœ¼ë©´ ë„˜ì–´ê°€ì§€ ì•Šë„ë¡
+            if (len == 0) continue; // ÀÔ·Â¹ŞÀº°Ô ¾øÀ¸¸é ³Ñ¾î°¡Áö ¾Êµµ·Ï
             fprintf(fp, "%s\n", nn);
             selectGender(fp);
             break;
         }
-        if (pressedKey == '\b') { // ë°±ìŠ¤í˜ì´ìŠ¤ ëˆ„ë¥´ë©´ ì§€ì›Œì§€ê¸°
+        if (pressedKey == '\b') { // ¹é½ºÆäÀÌ½º ´©¸£¸é Áö¿öÁö±â
             if (len == 0) continue;
             len--;
             nn[len] = NULL;
             continue;
         }
 
-        if (len > 13) { // 14ê¸€ì ë„˜ì–´ê°€ë©´ ë” ì´ìƒ ì•ˆì¨ì§€ê²Œ í•˜ê¸°
+        if (len > 13) { // 14±ÛÀÚ ³Ñ¾î°¡¸é ´õ ÀÌ»ó ¾È½áÁö°Ô ÇÏ±â
             //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
             printText(layer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, ("Exceeded 14 character."));
             while (3) {
@@ -127,7 +127,7 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) { // ìƒˆë¡œ ë‹‰ë„¤ì„ ë§Œ
             }
             continue;
         }
-        nn[len] = pressedKey; // ë°°ì—´ì— ì…ë ¥ë°›ì€ ë¬¸ì ì¶”ê°€
+        nn[len] = pressedKey; // ¹è¿­¿¡ ÀÔ·Â¹ŞÀº ¹®ÀÚ Ãß°¡
         len++;
 
 
@@ -136,27 +136,27 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) { // ìƒˆë¡œ ë‹‰ë„¤ì„ ë§Œ
 
 void UserName(FILE *fp, char *nn) {
     initLayer();
-    Image images[5] = { //ë°°ê²½ ê·¸ë¦¬ê¸°
-        {"resource/background/start_background.bmp", 0, 0}, //{ì´ë¯¸ì§€ ì´ë¦„, ì‹œì‘ xì¢Œí‘œ, ì‹œì‘ yì¢Œí‘œ, í¬ê¸° ë°°ìœ¨(ì“°ì§€ ì•Šìœ¼ë©´ ê¸°ë³¸ê°’ì¸ 16ì´ ë“¤ì–´ê°)}
+    Image images[5] = { //¹è°æ ±×¸®±â
+        {"resource/background/start_background.bmp", 0, 0}, //{ÀÌ¹ÌÁö ÀÌ¸§, ½ÃÀÛ xÁÂÇ¥, ½ÃÀÛ yÁÂÇ¥, Å©±â ¹èÀ²(¾²Áö ¾ÊÀ¸¸é ±âº»°ªÀÎ 16ÀÌ µé¾î°¨)}
         {"resource/text/textarea.bmp", 150, 300}
-    }; //ë°°ì—´ì˜ ì²« ì›ì†Œê°€ ê°€ì¥ ì•„ë˜ ê·¸ë ¤ì§„ë‹¤.
+    }; //¹è¿­ÀÇ Ã¹ ¿ø¼Ò°¡ °¡Àå ¾Æ·¡ ±×·ÁÁø´Ù.
 
-    imageLayer.imageCount = 2; //images ë°°ì—´ì˜ í¬ê¸°ë³´ë‹¤ ì‘ê±°ë‚˜ ê°™ì•„ì•¼ í•œë‹¤.
+    imageLayer.imageCount = 2; //images ¹è¿­ÀÇ Å©±âº¸´Ù ÀÛ°Å³ª °°¾Æ¾ß ÇÑ´Ù.
     imageLayer.images = images;
 
     imageLayer.renderAll(&imageLayer);
 
     char ch;
     int cnt = 0;
-    while (fscanf(fp, "%c", &ch) != EOF) // ì§€ê¸ˆ data íŒŒì¼ì— ì´ë¦„ì´ ìˆëŠ”ì§€ (ë¶ˆëŸ¬ì˜¬ ë°ì´í„°ê°€ ìˆëŠ”ì§€ í™•ì¸)
+    while (fscanf(fp, "%c", &ch) != EOF) // Áö±İ data ÆÄÀÏ¿¡ ÀÌ¸§ÀÌ ÀÖ´ÂÁö (ºÒ·¯¿Ã µ¥ÀÌÅÍ°¡ ÀÖ´ÂÁö È®ÀÎ)
         cnt++;
     if (cnt == 0) {
-        newNickname(fp, nn, imageLayer); //ì €ì¥ëœ ë°ì´í„°ê°€ ì—†ì–´ ë¬´ì¡°ê±´ ìƒˆë¡œí•˜ê¸°
+        newNickname(fp, nn, imageLayer); //ÀúÀåµÈ µ¥ÀÌÅÍ°¡ ¾ø¾î ¹«Á¶°Ç »õ·ÎÇÏ±â
     }
     else {
-        printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("ìƒˆë¡œí•˜ê¸° : 1"));
-        printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("ë¶ˆëŸ¬ì˜¤ê¸° : ë‚˜ë¨¸ì§€"));
-        if (getch() == '1') {//ìƒˆë¡œí•˜ê¸°ë¥¼ ëˆ„ë¥´ë©´ í˜„ì¬ ì í˜€ì§„ë‚´ìš©ì„ ì§€ìš°ê³  ìƒˆë¡œ ë‚´ìš©ì„ ë§Œë“ ë‹¤.
+        printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("»õ·ÎÇÏ±â : 1"));
+        printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("ºÒ·¯¿À±â : ³ª¸ÓÁö"));
+        if (getch() == '1') {//»õ·ÎÇÏ±â¸¦ ´©¸£¸é ÇöÀç ÀûÇôÁø³»¿ëÀ» Áö¿ì°í »õ·Î ³»¿ëÀ» ¸¸µç´Ù.
             fp = freopen("data/user.txt","w",fp);
             fp = freopen("data/user.txt","r+",fp);
             newNickname(fp, nn, imageLayer);
@@ -166,16 +166,16 @@ void UserName(FILE *fp, char *nn) {
         }
     }
 }
-/*********************ì„±ë³„ì„ íƒì¥ë©´ *********************************/
+/*********************¼ºº°¼±ÅÃÀå¸é *********************************/
 void selectGender(FILE *fp) {
     initLayer();
     Image images[4] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ì´ë¯¸ì§€ ì´ë¦„, ì‹œì‘ xì¢Œí‘œ, ì‹œì‘ yì¢Œí‘œ, í¬ê¸° ë°°ìœ¨(ì“°ì§€ ì•Šìœ¼ë©´ ê¸°ë³¸ê°’ì¸ 16ì´ ë“¤ì–´ê°)}
+        {"resource/background/start_background.bmp", 0, 0}, //{ÀÌ¹ÌÁö ÀÌ¸§, ½ÃÀÛ xÁÂÇ¥, ½ÃÀÛ yÁÂÇ¥, Å©±â ¹èÀ²(¾²Áö ¾ÊÀ¸¸é ±âº»°ªÀÎ 16ÀÌ µé¾î°¨)}
         {"resource/gender/character_girl.bmp", 296-150, 290+50},
         {"resource/gender/character_boy.bmp", 792, 290+50},
         //{"resource/gender/character_girl_selected.bmp", 1288+150, 290+50},
         {"resource/gender/character_girl_selected.bmp", 296-166, 290+34}
-    }; // è¿­   Ã¹    Ò°        Æ·   ×·     .
+    }; // ò÷   u    ?        ?   ?     .
     imageLayer.imageCount = 4;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
@@ -215,7 +215,7 @@ void selectGender(FILE *fp) {
 }
 
 
-/**********************ë°ì´í„°íŒŒì¼ ì½ê¸°******************************/
+/**********************µ¥ÀÌÅÍÆÄÀÏ ÀĞ±â******************************/
 void readData(FILE *fp, struct information *data) {
     fseek(fp,0,SEEK_SET);
     fscanf(fp,"%s\n",(*data).name);
@@ -224,17 +224,17 @@ void readData(FILE *fp, struct information *data) {
     fscanf(fp,"%c", &(*data).difficultyInformation);
 }
 
-/*********************ìŠ¤íƒœì´ì§€ ì„ íƒ*********************************/
+/*********************½ºÅÂÀÌÁö ¼±ÅÃ*********************************/
 
 void selectStage(struct information *data) {
     initLayer();
     Image images[5] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ì´ë¯¸ì§€ ì´ë¦„, ì‹œì‘ xì¢Œí‘œ, ì‹œì‘ yì¢Œí‘œ, í¬ê¸° ë°°ìœ¨(ì“°ì§€ ì•Šìœ¼ë©´ ê¸°ë³¸ê°’ì¸ 16ì´ ë“¤ì–´ê°)}
+        {"resource/background/start_background.bmp", 0, 0}, //{ÀÌ¹ÌÁö ÀÌ¸§, ½ÃÀÛ xÁÂÇ¥, ½ÃÀÛ yÁÂÇ¥, Å©±â ¹èÀ²(¾²Áö ¾ÊÀ¸¸é ±âº»°ªÀÎ 16ÀÌ µé¾î°¨)}
         {"resource/difficulty/weekend_day.bmp", 296-150, 290+50},
         {"resource/difficulty/weekend_night.bmp", 792, 290+50},
         {"resource/difficulty/weekday.bmp", 1288+150, 290+50},
         {"resource/difficulty/selected.bmp", 296-166, 290+34}
-    }; //ë°°ì—´ì˜ ì²« ì›ì†Œê°€ ê°€ì¥ ì•„ë˜ ê·¸ë ¤ì§„ë‹¤.
+    }; //¹è¿­ÀÇ Ã¹ ¿ø¼Ò°¡ °¡Àå ¾Æ·¡ ±×·ÁÁø´Ù.
 
     switch((*data).difficultyInformation) {
     case 'e':
@@ -277,7 +277,7 @@ void selectStage(struct information *data) {
 
         if (key == ENTER) {
             if (images[select+1].fileName == "resource/difficulty/weekend_night_locked.bmp" ||images[select+1].fileName == "resource/difficulty/weekday_locked.bmp") {
-                printText(imageLayer._consoleDC, 600, 1000, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("ì•„ì§ ì„ íƒí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤."));
+                printText(imageLayer._consoleDC, 600, 1000, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("¾ÆÁ÷ ¼±ÅÃÇÒ ¼ö ¾ø½À´Ï´Ù."));
             }
             else {
                 (*data).nowDifficulty == select;  // 0 : easy, 1 : normal, 2 : hard
@@ -290,4 +290,4 @@ void selectStage(struct information *data) {
 }
 
 
-/**********************ê²Œì„ì‹œì‘**************************************/
+/**********************°ÔÀÓ½ÃÀÛ**************************************/
