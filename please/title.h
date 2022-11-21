@@ -5,5 +5,5 @@
 
 void showTitle();
 void UserName(FILE *fp, char *nn);
-
+void selectStage();
 #endif // DOGSOOMIN_H_INCLUDED

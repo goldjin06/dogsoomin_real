@@ -2,12 +2,20 @@
 #define DEFINE_H_INCLUDED
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <windows.h>
 #include <time.h>
 #include "Start.h"
 #include "name.h"
 #include "title.h"
 //#include "ImageLayer.h"
+
+struct information {
+    char nickname[15];
+    char gender;
+    char difficultyInformation;
+	char nowDifficulty;
+};
 
 #define MAX_X 135
 //console width
@@ -29,6 +37,7 @@ HWND WINDOW_HANDLE;
 #define DOWN 80
 #define UP 72
 #define SPACE 32
+#define ENTER 13
 
 
 #endif // DEFINE_H_INCLUDED
