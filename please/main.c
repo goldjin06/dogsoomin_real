@@ -4,6 +4,9 @@
 
 int main()
 {
+
+    system("chcp 65001");
+    system("cls");
     struct information data;
 
     ClearCursor();
@@ -14,9 +17,6 @@ int main()
     //printBound();
     //DisplayStart();
     UserName(fp,nn);
-
-    selectGender(fp);
-    selectStage();
 
     readData(fp,&data);
     selectStage(&data);
