@@ -66,7 +66,7 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
     int len = 0;
     char pressedKey;
     gotoxy(MAX_X / 5, MAX_Y / 3 + 2);
-    printText(layer._consoleDC, 100, 100, 60, 0, RGB(255, 0, 0), TA_LEFT, ("Write your nickname. You can't change your name.(8~14)\n"));
+    printText(layer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, ("Write your nickname. English only.(8~14)\n"));
     gotoxy(MAX_X / 2 - 6, MAX_Y / 2);
 
     while (3) {
@@ -75,7 +75,7 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
         pressedKey = _getch();
 
         if (pressedKey == 13) {
-            fprintf(fp, "%s", nn);
+            fprintf(fp, "%s\n", nn);
             break;
         }
         if (pressedKey == '\b') {
@@ -134,7 +134,8 @@ void UserName(FILE *fp, char *nn) {
         printText(imageLayer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("새로하기 : 1"));
         printText(imageLayer._consoleDC, 100, 200, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("불러오기 : 나머지"));
         if (getch() == '1') {
-            fclose(fopen("data/user.txt","w"));
+            fp = freopen("data/user.txt","w",fp);
+            fp = freopen("data/user.txt","r+",fp);
             newNickname(fp, nn, imageLayer);
             fprintf(fp,"해치웠나");
         }
