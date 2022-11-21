@@ -1,9 +1,10 @@
 #include "define.h"
-//ƒ‹º÷ «»ºøªÁ¿Ã¡Ó = 2160 * 1280
+// ‹º   »º        = 2160 * 1280
 
 
 int main()
 {
+    struct information data;
 
     ClearCursor();
     ResizeConsole();
@@ -13,8 +14,12 @@ int main()
     //printBound();
     //DisplayStart();
     UserName(fp,nn);
+
     selectGender(fp);
     selectStage();
+
+    readData(fp,&data);
+    selectStage(&data);
 
 
     return 0;

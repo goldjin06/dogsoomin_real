@@ -6,7 +6,7 @@ INPUT_RECORD rec;
 DWORD dwNOER;
 HANDLE CIN = 0;
 
-void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) {
+void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) { //  ̹                    Լ 
 	if (weight == 0) weight = 900;
 	size = (int)(size * RESOLUTION_MULTIPLIER);
 	const HFONT font = CreateFont(size, 0, angle, 0, weight, 0, 0, 0, HANGEUL_CHARSET,
@@ -27,7 +27,7 @@ void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, 
 	DeleteObject(font);
 }
 
-void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) {
+void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) { //  ̹                    Լ 
 	printTextWithAngle(hdc, x, y, size, weight, 0, textColor, align, text);
 }
 
@@ -78,8 +78,13 @@ void showTitle() {
 
 }
 
+
 /******************** ҷ      /      ϱ     *************************/
 void newNickname(FILE* fp, char* nn, ImageLayer layer) {
+
+/******************** ҷ      /      ϱ     *************************/
+void newNickname(FILE* fp, char* nn, ImageLayer layer) { //       г         
+
     initLayer();
 
     Image images[5] = {
@@ -99,22 +104,26 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
         printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("       ̸         ּ   .(8~14              մϴ .)"));
         printText(layer._consoleDC, 300, 550, 60, 0, RGB(0, 0, 255), TA_LEFT, ("%s", nn));
         if (len != 0) printText(layer._consoleDC, 300, 650, 60, 0, RGB(0, 0, 0), TA_LEFT, ("      ߴٸ     ͸       ּ   ."));
+        printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("       ̸         ּ   .(8~14              մϴ .)"));
+        printText(layer._consoleDC, 300, 550, 60, 0, RGB(0, 0, 255), TA_LEFT, ("%s", nn)); //    ݱ        г       
+        if (len != 0) printText(layer._consoleDC, 300, 650, 60, 0, RGB(0, 0, 0), TA_LEFT, ("      ߴٸ     ͸       ּ   ."));
 
 
-        pressedKey = _getch();
+        pressedKey = _getch(); // Ű      Է¹ޱ 
 
         if (pressedKey == 13) {
+            if (len == 0) continue; //  Է¹              Ѿ    ʵ   
             fprintf(fp, "%s\n", nn);
             break;
         }
-        if (pressedKey == '\b') {
+        if (pressedKey == '\b') { //  齺   ̽                 
             if (len == 0) continue;
             len--;
             nn[len] = NULL;
             continue;
         }
 
-        if (len > 13) {
+        if (len > 13) { // 14      Ѿ       ̻   Ƚ       ϱ 
             //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
             printText(layer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, ("Exceeded 14 character."));
             while (3) {
@@ -128,7 +137,7 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
             }
             continue;
         }
-        nn[len] = pressedKey;
+        nn[len] = pressedKey; //  迭    Է¹          ߰ 
         len++;
 
 
@@ -138,6 +147,8 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
 void UserName(FILE *fp, char *nn) {
     initLayer();
     Image images[5] = {
+        {"resource/background/start_background.bmp", 0, 0}, //{ ̹     ̸ ,      x  ǥ,      y  ǥ, ũ       (             ⺻     16     )}
+    Image images[5] = { //      ׸   
         {"resource/background/start_background.bmp", 0, 0}, //{ ̹     ̸ ,      x  ǥ,      y  ǥ, ũ       (             ⺻     16     )}
         {"resource/text/textarea.bmp", 150, 300}
     }; // 迭   ù    Ұ        Ʒ   ׷     .
@@ -149,7 +160,7 @@ void UserName(FILE *fp, char *nn) {
 
     char ch;
     int cnt = 0;
-    while (fscanf(fp, "%c", &ch) != EOF)
+    while (fscanf(fp, "%c", &ch) != EOF) //      data    Ͽ   ̸     ִ    ( ҷ         Ͱ   ִ    Ȯ  )
         cnt++;
     if (cnt == 0) {
         newNickname(fp, nn, imageLayer); //           Ͱ                   ϱ 
@@ -158,6 +169,11 @@ void UserName(FILE *fp, char *nn) {
         printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("     ϱ  : 1"));
         printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT(" ҷ      :       "));
         if (getch() == '1') {
+
+        printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("     ϱ  : 1"));
+        printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT(" ҷ      :       "));
+        if (getch() == '1') { //     ϱ⸦                                                 .
+
             fp = freopen("data/user.txt","w",fp);
             fp = freopen("data/user.txt","r+",fp);
             newNickname(fp, nn, imageLayer);
@@ -218,11 +234,20 @@ void selectGender(FILE *fp) {
 /**********************            б ******************************/
 void readData(FILE *fp, struct information data) {
 
+
+/**********************            б ******************************/
+void readData(FILE *fp, struct information *data) {
+    fseek(fp,0,SEEK_SET);
+    fscanf(fp,"%s\n",(*data).name);
+    fscanf(fp,"%c\n",&(*data).gender);
+    fseek(fp,-1,SEEK_END);
+    fscanf(fp,"%c", &(*data).difficultyInformation);
+
 }
 
 /*********************             *********************************/
 
-void selectStage() {
+void selectStage(struct information *data) {
     initLayer();
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0}, //{ ̹     ̸ ,      x  ǥ,      y  ǥ, ũ       (             ⺻     16     )}
@@ -230,7 +255,21 @@ void selectStage() {
         {"resource/difficulty/weekend_night.bmp", 792, 290+50},
         {"resource/difficulty/weekday.bmp", 1288+150, 290+50},
         {"resource/difficulty/selected.bmp", 296-166, 290+34}
+
     }; // 迭   ù    Ұ        Ʒ   ׷     .
+
+    }; // 迭   ù    Ұ        Ʒ   ׷     .
+
+    switch((*data).difficultyInformation) {
+    case 'e':
+        images[2].fileName = "resource/difficulty/weekend_night_locked.bmp";
+    case 'n':
+        images[3].fileName = "resource/difficulty/weekday_locked.bmp";
+        break;
+    }
+
+
+
     imageLayer.imageCount = 5;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
@@ -259,6 +298,16 @@ void selectStage() {
             images[4].x = 1288+150-16;
             imageLayer.renderAll(&imageLayer);
             break;
+        }
+
+        if (key == ENTER) {
+            if (images[select+1].fileName == "resource/difficulty/weekend_night_locked.bmp" ||images[select+1].fileName == "resource/difficulty/weekday_locked.bmp") {
+                printText(imageLayer._consoleDC, 600, 1000, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("                    ϴ ."));
+            }
+            else {
+                (*data).nowDifficulty == select;  // 0 : easy, 1 : normal, 2 : hard
+                break;
+            }
         }
 
     }
