@@ -62,16 +62,27 @@ void showTitle() {
 
 /********************불러오기 / 새로하기 장면*************************/
 void newNickname(FILE* fp, char* nn, ImageLayer layer) {
+    initLayer();
 
+    Image images[5] = {
+        {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
+        {"resource/text/textarea.bmp", 150, 300}
+    }; //배열의 첫 원소가 가장 아래 그려진다.
+    imageLayer.renderAll(&imageLayer);
     int len = 0;
     char pressedKey;
-    gotoxy(MAX_X / 5, MAX_Y / 3 + 2);
-    printText(layer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, ("Write your nickname. English only.(8~14)\n"));
-    gotoxy(MAX_X / 2 - 6, MAX_Y / 2);
+    printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("당신의 이름을 정해주세요.(8~14자의 영어만 가능합니다.)"));
 
     while (3) {
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-        ViewCursor();
+        //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+
+        initLayer();
+        imageLayer.renderAll(&imageLayer);
+        printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("당신의 이름을 정해주세요.(8~14자의 영어만 가능합니다.)"));
+        printText(layer._consoleDC, 300, 550, 60, 0, RGB(0, 0, 255), TA_LEFT, ("%s", nn));
+        if (len != 0) printText(layer._consoleDC, 300, 650, 60, 0, RGB(0, 0, 0), TA_LEFT, ("다 정했다면 엔터를 눌러주세요."));
+
+
         pressedKey = _getch();
 
         if (pressedKey == 13) {
@@ -81,18 +92,13 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
         if (pressedKey == '\b') {
             if (len == 0) continue;
             len--;
-            gotoxy(MAX_X / 2 - 6 + len, MAX_Y / 2);
-            printf(" ");
-            gotoxy(MAX_X / 2 - 6 + len, MAX_Y / 2);
-            nn[len] = 0;
+            nn[len] = NULL;
             continue;
         }
 
         if (len > 13) {
-            ClearCursor();
-            gotoxy(MAX_X / 3 + 5, MAX_Y / 3 * 2 - 2);
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
-            printf("Exceeded 14 character.");
+            //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+            printText(layer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, ("Exceeded 14 character."));
             while (3) {
                 pressedKey = _getch();
                 if (pressedKey == '\b') {
@@ -104,10 +110,10 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
             }
             continue;
         }
-
         nn[len] = pressedKey;
-        printf("%c", nn[len]);
         len++;
+
+
     }
 }
 
@@ -115,7 +121,7 @@ void UserName(FILE *fp, char *nn) {
     initLayer();
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
-        {"resource/text/textarea.bmp", 0, 0}
+        {"resource/text/textarea.bmp", 150, 300}
     }; //배열의 첫 원소가 가장 아래 그려진다.
 
     imageLayer.imageCount = 2; //images 배열의 크기보다 작거나 같아야 한다.
@@ -131,13 +137,12 @@ void UserName(FILE *fp, char *nn) {
         newNickname(fp, nn, imageLayer);
     }
     else {
-        printText(imageLayer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("새로하기 : 1"));
-        printText(imageLayer._consoleDC, 100, 200, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("불러오기 : 나머지"));
+        printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("새로하기 : 1"));
+        printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("불러오기 : 나머지"));
         if (getch() == '1') {
             fp = freopen("data/user.txt","w",fp);
             fp = freopen("data/user.txt","r+",fp);
             newNickname(fp, nn, imageLayer);
-            fprintf(fp,"해치웠나");
         }
         else {
 

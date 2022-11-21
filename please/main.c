@@ -1,5 +1,5 @@
 #include "define.h"
-
+//콘솔 픽셀사이즈 = 2160 * 1280
 
 
 int main()
