@@ -10,7 +10,7 @@ void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, 
 	if (weight == 0) weight = 900;
 	size = (int)(size * RESOLUTION_MULTIPLIER);
 	const HFONT font = CreateFont(size, 0, angle, 0, weight, 0, 0, 0, HANGEUL_CHARSET,
-		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("±¼¸²"));
+		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("    "));
 
 	SelectObject(hdc, font);
 	SetBkMode(hdc, TRANSPARENT);
@@ -31,23 +31,23 @@ void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, 
 	printTextWithAngle(hdc, x, y, size, weight, 0, textColor, align, text);
 }
 
-void initLayer() { // ÀÌ¹ÌÁö·¹ÀÌ¾î ÃÊ±âÈ­
+void initLayer() { //  Ì¹      Ì¾   Ê± È­
 	imageLayer.initialize(&imageLayer);
 	imageLayer.transparentColor = RGB(0, 255, 0);
 }
 
-/********************Å¸ÀÌÆ² Àå¸é*************************/
+/********************Å¸  Æ²    *************************/
 void showTitle() {
     Sleep(500);
 
     initLayer();
     Image images[7] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ÀÌ¹ÌÁö ÀÌ¸§, ½ÃÀÛ xÁÂÇ¥, ½ÃÀÛ yÁÂÇ¥, Å©±â ¹èÀ²(¾²Áö ¾ÊÀ¸¸é ±âº»°ªÀÎ 16ÀÌ µé¾î°¨)}
+        {"resource/background/start_background.bmp", 0, 0}, //{ Ì¹     Ì¸ ,      x  Ç¥,      y  Ç¥, Å©       (             âº»     16     î°¨)}
         {"resource/title/start_button.bmp", 700, 500},
         {"resource/title/title_text.bmp", 250, 50},
-    }; //¹è¿­ÀÇ Ã¹ ¿ø¼Ò°¡ °¡Àå ¾Æ·¡ ±×·ÁÁø´Ù.
+    }; // è¿­   Ã¹    Ò°        Æ·   ×·     .
 
-    imageLayer.imageCount = 4; //images ¹è¿­ÀÇ Å©±âº¸´Ù ÀÛ°Å³ª °°¾Æ¾ß ÇÑ´Ù.
+    imageLayer.imageCount = 4; //images  è¿­   Å© âº¸    Û°Å³     Æ¾   Ñ´ .
     imageLayer.images = images;
 
     imageLayer.renderAll(&imageLayer);
@@ -55,8 +55,8 @@ void showTitle() {
     int key;
     while (1) {
         key = getch();
-        //mouse_x = rec.Event.MouseEvent.dwMousePosition.X; // X°ª ¹Ş¾Æ¿È
-        //mouse_y = rec.Event.MouseEvent.dwMousePosition.Y; // Y°ª ¹Ş¾Æ¿È
+        //mouse_x = rec.Event.MouseEvent.dwMousePosition.X; // X    Ş¾Æ¿ 
+        //mouse_y = rec.Event.MouseEvent.dwMousePosition.Y; // Y    Ş¾Æ¿ 
         //if (mouse_x >= 200/8 && mouse_x <= 235/8 && mouse_y >= 500/16 && mouse_y <= 535/16 && mouseOn == 0) {
         if (key == 13 && mouseOn == 1) {
             //images[1].fileName = "resource/title/start_button.bmp";
@@ -78,27 +78,27 @@ void showTitle() {
 
 }
 
-/********************ºÒ·¯¿À±â / »õ·ÎÇÏ±â Àå¸é*************************/
+/******************** Ò·      /      Ï±     *************************/
 void newNickname(FILE* fp, char* nn, ImageLayer layer) {
     initLayer();
 
     Image images[5] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ÀÌ¹ÌÁö ÀÌ¸§, ½ÃÀÛ xÁÂÇ¥, ½ÃÀÛ yÁÂÇ¥, Å©±â ¹èÀ²(¾²Áö ¾ÊÀ¸¸é ±âº»°ªÀÎ 16ÀÌ µé¾î°¨)}
+        {"resource/background/start_background.bmp", 0, 0}, //{ Ì¹     Ì¸ ,      x  Ç¥,      y  Ç¥, Å©       (             âº»     16     î°¨)}
         {"resource/text/textarea.bmp", 150, 300}
-    }; //¹è¿­ÀÇ Ã¹ ¿ø¼Ò°¡ °¡Àå ¾Æ·¡ ±×·ÁÁø´Ù.
+    }; // è¿­   Ã¹    Ò°        Æ·   ×·     .
     imageLayer.renderAll(&imageLayer);
     int len = 0;
     char pressedKey;
-    printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("´ç½ÅÀÇ ÀÌ¸§À» Á¤ÇØÁÖ¼¼¿ä.(8~14ÀÚÀÇ ¿µ¾î¸¸ °¡´ÉÇÕ´Ï´Ù.)"));
+    printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("       Ì¸         Ö¼   .(8~14        î¸¸      Õ´Ï´ .)"));
 
     while (3) {
         //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 
         initLayer();
         imageLayer.renderAll(&imageLayer);
-        printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("´ç½ÅÀÇ ÀÌ¸§À» Á¤ÇØÁÖ¼¼¿ä.(8~14ÀÚÀÇ ¿µ¾î¸¸ °¡´ÉÇÕ´Ï´Ù.)"));
+        printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("       Ì¸         Ö¼   .(8~14        î¸¸      Õ´Ï´ .)"));
         printText(layer._consoleDC, 300, 550, 60, 0, RGB(0, 0, 255), TA_LEFT, ("%s", nn));
-        if (len != 0) printText(layer._consoleDC, 300, 650, 60, 0, RGB(0, 0, 0), TA_LEFT, ("´Ù Á¤Çß´Ù¸é ¿£ÅÍ¸¦ ´­·¯ÁÖ¼¼¿ä."));
+        if (len != 0) printText(layer._consoleDC, 300, 650, 60, 0, RGB(0, 0, 0), TA_LEFT, ("      ß´Ù¸     Í¸       Ö¼   ."));
 
 
         pressedKey = _getch();
@@ -138,11 +138,11 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
 void UserName(FILE *fp, char *nn) {
     initLayer();
     Image images[5] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ÀÌ¹ÌÁö ÀÌ¸§, ½ÃÀÛ xÁÂÇ¥, ½ÃÀÛ yÁÂÇ¥, Å©±â ¹èÀ²(¾²Áö ¾ÊÀ¸¸é ±âº»°ªÀÎ 16ÀÌ µé¾î°¨)}
+        {"resource/background/start_background.bmp", 0, 0}, //{ Ì¹     Ì¸ ,      x  Ç¥,      y  Ç¥, Å©       (             âº»     16     î°¨)}
         {"resource/text/textarea.bmp", 150, 300}
-    }; //¹è¿­ÀÇ Ã¹ ¿ø¼Ò°¡ °¡Àå ¾Æ·¡ ±×·ÁÁø´Ù.
+    }; // è¿­   Ã¹    Ò°        Æ·   ×·     .
 
-    imageLayer.imageCount = 2; //images ¹è¿­ÀÇ Å©±âº¸´Ù ÀÛ°Å³ª °°¾Æ¾ß ÇÑ´Ù.
+    imageLayer.imageCount = 2; //images  è¿­   Å© âº¸    Û°Å³     Æ¾   Ñ´ .
     imageLayer.images = images;
 
     imageLayer.renderAll(&imageLayer);
@@ -152,11 +152,11 @@ void UserName(FILE *fp, char *nn) {
     while (fscanf(fp, "%c", &ch) != EOF)
         cnt++;
     if (cnt == 0) {
-        newNickname(fp, nn, imageLayer); //ÀúÀåµÈ µ¥ÀÌÅÍ°¡ ¾ø¾î ¹«Á¶°Ç »õ·ÎÇÏ±â
+        newNickname(fp, nn, imageLayer); //           Í°                   Ï± 
     }
     else {
-        printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("»õ·ÎÇÏ±â : 1"));
-        printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("ºÒ·¯¿À±â : ³ª¸ÓÁö"));
+        printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("     Ï±  : 1"));
+        printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT(" Ò·      :       "));
         if (getch() == '1') {
             fp = freopen("data/user.txt","w",fp);
             fp = freopen("data/user.txt","r+",fp);
@@ -167,24 +167,70 @@ void UserName(FILE *fp, char *nn) {
         }
     }
 }
-/*********************¼ºº°¼±ÅÃÀå¸é *********************************/
+/*********************            *********************************/
+void selectGender(FILE *fp) {
+    initLayer();
+    Image images[4] = {
+        {"resource/background/start_background.bmp", 0, 0}, //{ Ì¹     Ì¸ ,      x  Ç¥,      y  Ç¥, Å©       (             âº»     16     î°¨)}
+        {"resource/gender/character_girl.bmp", 296-150, 290+50},
+        {"resource/gender/character_boy.bmp", 792, 290+50},
+        //{"resource/gender/character_girl_selected.bmp", 1288+150, 290+50},
+        {"resource/gender/character_girl_selected.bmp", 296-166, 290+34}
+    }; // è¿­   Ã¹    Ò°        Æ·   ×·     .
+    imageLayer.imageCount = 4;
+    imageLayer.images = images;
+    imageLayer.renderAll(&imageLayer);
+    int key, select = 0;
+    while(1) {
+        key = getch();
+        if (key == RIGHT || key == LEFT) {
+            select++;
+            select %= 2;
+        }
+        else if(key == 13) {
+            switch(select) {
+            case 0:
+                fprintf(fp, "f\ne");
+                break;
+            case 1:
+                fprintf(fp, "m\ne");
+                break;
+            }
+            break;
+        }
 
-/**********************µ¥ÀÌÅÍÆÄÀÏ ÀĞ±â******************************/
+        switch (select) {
+        case 0:
+            images[3].x = 296-166;
+            images[3].fileName = "resource/gender/character_girl_selected.bmp";
+            imageLayer.renderAll(&imageLayer);
+            break;
+        case 1:
+            images[3].x = 792-16;
+            images[3].fileName = "resource/gender/character_boy_selected.bmp";
+            imageLayer.renderAll(&imageLayer);
+            break;
+        }
+
+    }
+}
+
+/**********************            Ğ± ******************************/
 void readData(FILE *fp, struct information data) {
 
 }
 
-/*********************½ºÅÂÀÌÁö ¼±ÅÃ*********************************/
+/*********************             *********************************/
 
 void selectStage() {
     initLayer();
     Image images[5] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ÀÌ¹ÌÁö ÀÌ¸§, ½ÃÀÛ xÁÂÇ¥, ½ÃÀÛ yÁÂÇ¥, Å©±â ¹èÀ²(¾²Áö ¾ÊÀ¸¸é ±âº»°ªÀÎ 16ÀÌ µé¾î°¨)}
+        {"resource/background/start_background.bmp", 0, 0}, //{ Ì¹     Ì¸ ,      x  Ç¥,      y  Ç¥, Å©       (             âº»     16     î°¨)}
         {"resource/difficulty/weekend_day.bmp", 296-150, 290+50},
         {"resource/difficulty/weekend_night.bmp", 792, 290+50},
         {"resource/difficulty/weekday.bmp", 1288+150, 290+50},
         {"resource/difficulty/selected.bmp", 296-166, 290+34}
-    }; //¹è¿­ÀÇ Ã¹ ¿ø¼Ò°¡ °¡Àå ¾Æ·¡ ±×·ÁÁø´Ù.
+    }; // è¿­   Ã¹    Ò°        Æ·   ×·     .
     imageLayer.imageCount = 5;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
@@ -220,4 +266,4 @@ void selectStage() {
 }
 
 
-/**********************°ÔÀÓ½ÃÀÛ**************************************/
+/**********************   Ó½   **************************************/

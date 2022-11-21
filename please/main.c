@@ -13,6 +13,7 @@ int main()
     //printBound();
     //DisplayStart();
     UserName(fp,nn);
+    selectGender(fp);
     selectStage();
 
 
