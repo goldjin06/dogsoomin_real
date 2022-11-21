@@ -2,12 +2,14 @@
 #define DEFINE_H_INCLUDED
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <windows.h>
 #include <time.h>
 #include "Start.h"
 #include "name.h"
 #include "title.h"
 //#include "ImageLayer.h"
+
 
 #define MAX_X 135
 //console width

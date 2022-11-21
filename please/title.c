@@ -1,7 +1,10 @@
 #include "define.h"
 #include "title.h"
 #include "ImageLayer.h"
-ImageLayer imageLayer = DEFAULT_IMAGE_LAYER;
+ImageLayer imageLayer = { NULL, 0, RGB(0,0,0) , NULL, NULL,_initialize, _renderAll, _renderAndFadeIn, _renderAndFadeOut, NULL };
+INPUT_RECORD rec;
+DWORD dwNOER;
+HANDLE CIN = 0;
 
 void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) {
 	if (weight == 0) weight = 900;
@@ -49,15 +52,31 @@ void showTitle() {
     imageLayer.images = images;
 
     imageLayer.renderAll(&imageLayer);
+    int mouse_x, mouse_y, mouseOn = 0;
+    int key;
+    while (1) {
+        key = getch();
+        //mouse_x = rec.Event.MouseEvent.dwMousePosition.X; // X값 받아옴
+        //mouse_y = rec.Event.MouseEvent.dwMousePosition.Y; // Y값 받아옴
+        //if (mouse_x >= 200/8 && mouse_x <= 235/8 && mouse_y >= 500/16 && mouse_y <= 535/16 && mouseOn == 0) {
+        if (key == 13 && mouseOn == 1) {
+            //images[1].fileName = "resource/title/start_button.bmp";
+            //imageLayer.renderAll(&imageLayer);
+            break;
+        }
+        if (key == 13){
+            images[1].fileName = "resource/title/start_button_clicked.bmp";
+            imageLayer.renderAll(&imageLayer);
+            mouseOn = 1;
+            Sleep(300);
+            key = 0;
+        }
+        //else if (!(mouse_x >= 200/8 && mouse_x <= 235/8 && mouse_y >= 500/16 && mouse_y <= 535/16) && mouseOn == 1) {
 
-    while (1) {
-        if(getch() == 13) break;
     }
-    images[1].fileName = "resource/title/start_button_clicked.bmp";
-    imageLayer.renderAll(&imageLayer);
-    while (1) {
-        if(getch() == 13) break;
-    }
+
+
+
 }
 
 /********************불러오기 / 새로하기 장면*************************/
@@ -134,7 +153,7 @@ void UserName(FILE *fp, char *nn) {
     while (fscanf(fp, "%c", &ch) != EOF)
         cnt++;
     if (cnt == 0) {
-        newNickname(fp, nn, imageLayer);
+        newNickname(fp, nn, imageLayer); //저장된 데이터가 없어 무조건 새로하기
     }
     else {
         printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("새로하기 : 1"));
@@ -149,6 +168,10 @@ void UserName(FILE *fp, char *nn) {
         }
     }
 }
+/*********************성별선택장면 *********************************/
 
+/*********************스태이지 선택*********************************/
 
+void selectStage() {
 
+}
