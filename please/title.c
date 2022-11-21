@@ -1,6 +1,7 @@
 #include "define.h"
 #include "title.h"
 #include "ImageLayer.h"
+ImageLayer imageLayer = DEFAULT_IMAGE_LAYER;
 
 void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) {
 	if (weight == 0) weight = 900;
@@ -28,24 +29,23 @@ void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, 
 }
 
 void initLayer() { // 이미지레이어 초기화
-	layer = DEFAULT_IMAGE_LAYER;
-	layer.initialize(&layer);
-	layer.transparentColor = RGB(255, 255, 255);
+	imageLayer.initialize(&imageLayer);
+	imageLayer.transparentColor = RGB(255, 255, 255);
 }
 
 /********************타이틀 장면*************************/
 void showTitle() {
-    system("cls");
     Sleep(500);
-    initLayer();
 
-    Image images[5] = {
+    initLayer();
+    Image images[7] = {
         {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
         {"resource/title/start_button.bmp", 700, 500},
-        {"resource/title/title_text.bmp", 250, 50}
+        {"resource/title/title_text.bmp", 250, 50},
     }; //배열의 첫 원소가 가장 아래 그려진다.
 
-    imageLayer.imageCount = 3; //images 배열의 크기보다 작거나 같아야 한다.
+    images[3].isHide = TRUE;
+    imageLayer.imageCount = 4; //images 배열의 크기보다 작거나 같아야 한다.
     imageLayer.images = images;
 
     imageLayer.renderAll(&imageLayer);
@@ -61,12 +61,12 @@ void showTitle() {
 }
 
 /********************불러오기 / 새로하기 장면*************************/
-void newNickname(FILE* fp, char* nn) {
+void newNickname(FILE* fp, char* nn, ImageLayer layer) {
 
     int len = 0;
     char pressedKey;
     gotoxy(MAX_X / 5, MAX_Y / 3 + 2);
-    printf("Write your nickname. You can't change your name.(8~14)\n");
+    printText(layer._consoleDC, 100, 100, 60, 0, RGB(255, 0, 0), TA_LEFT, ("Write your nickname. You can't change your name.(8~14)\n"));
     gotoxy(MAX_X / 2 - 6, MAX_Y / 2);
 
     while (3) {
@@ -112,7 +112,6 @@ void newNickname(FILE* fp, char* nn) {
 }
 
 void UserName(FILE *fp, char *nn) {
-    system("cls");
     initLayer();
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
@@ -128,14 +127,14 @@ void UserName(FILE *fp, char *nn) {
     while (fscanf(fp, "%c", &ch) != EOF)
         cnt++;
     if (cnt == 0) {
-        newNickname(fp, nn);
+        newNickname(fp, nn, imageLayer);
     }
     else {
         gotoxy(MAX_X / 5, MAX_Y / 3 + 2);
-        printf("새로하기 : 1\n불러오기 : 나머지");
+        printText(imageLayer._consoleDC, 100, 100, 60, 0, RGB(255, 0, 0), TA_LEFT, TEXT("새로하기기 : 1\n불러오기 : 나머지"));
         if (getch() == '1') {
             fclose(fopen("data/user.txt","w"));
-            newNickname(fp, nn);
+            newNickname(fp, nn, imageLayer);
             fprintf(fp,"해치웠나");
         }
         else {

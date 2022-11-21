@@ -14,6 +14,7 @@
 #define MAX_Y 40
 //console height
 
+HWND WINDOW_HANDLE;
 
 #define INACTIVE_BLOCK 3
 
