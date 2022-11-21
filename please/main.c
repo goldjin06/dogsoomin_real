@@ -4,6 +4,7 @@
 
 int main()
 {
+    struct information data;
 
     ClearCursor();
     ResizeConsole();
@@ -13,7 +14,8 @@ int main()
     //printBound();
     //DisplayStart();
     UserName(fp,nn);
-    selectStage();
+    readData(fp,&data);
+    selectStage(&data);
 
 
     return 0;

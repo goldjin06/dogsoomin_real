@@ -11,10 +11,10 @@
 //#include "ImageLayer.h"
 
 struct information {
-    char nickname[15];
+    char name[15];
     char gender;
     char difficultyInformation;
-	char nowDifficulty;
+	int nowDifficulty; // 0 : easy, 1 : normal, 2 : hard
 };
 
 #define MAX_X 135

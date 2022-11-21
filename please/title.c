@@ -170,13 +170,17 @@ void UserName(FILE *fp, char *nn) {
 /*********************성별선택장면 *********************************/
 
 /**********************데이터파일 읽기******************************/
-void readData(FILE *fp, struct information data) {
-
+void readData(FILE *fp, struct information *data) {
+    fseek(fp,0,SEEK_SET);
+    fscanf(fp,"%s\n",(*data).name);
+    fscanf(fp,"%c\n",&(*data).gender);
+    fseek(fp,-1,SEEK_END);
+    fscanf(fp,"%c", &(*data).difficultyInformation);
 }
 
 /*********************스태이지 선택*********************************/
 
-void selectStage() {
+void selectStage(struct information *data) {
     initLayer();
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
@@ -185,6 +189,16 @@ void selectStage() {
         {"resource/difficulty/weekday.bmp", 1288+150, 290+50},
         {"resource/difficulty/selected.bmp", 296-166, 290+34}
     }; //배열의 첫 원소가 가장 아래 그려진다.
+
+    switch((*data).difficultyInformation) {
+    case 'e':
+        images[2].fileName = "resource/difficulty/weekend_night_locked.bmp";
+    case 'n':
+        images[3].fileName = "resource/difficulty/weekday_locked.bmp";
+        break;
+    }
+
+
     imageLayer.imageCount = 5;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
@@ -214,6 +228,17 @@ void selectStage() {
             imageLayer.renderAll(&imageLayer);
             break;
         }
+
+        if (key == ENTER) {
+            if (images[select+1].fileName == "resource/difficulty/weekend_night_locked.bmp" ||images[select+1].fileName == "resource/difficulty/weekday_locked.bmp") {
+                printText(imageLayer._consoleDC, 600, 1000, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("아직 선택할 수 없습니다."));
+            }
+            else {
+                (*data).nowDifficulty == select;  // 0 : easy, 1 : normal, 2 : hard
+                break;
+            }
+        }
+
 
     }
 
