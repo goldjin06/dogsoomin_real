@@ -4,6 +4,7 @@
 
 int main()
 {
+
     ClearCursor();
     ResizeConsole();
     showTitle();
@@ -12,6 +13,7 @@ int main()
     //printBound();
     //DisplayStart();
     UserName(fp,nn);
+    selectStage();
 
 
     return 0;

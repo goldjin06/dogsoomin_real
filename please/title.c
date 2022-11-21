@@ -47,7 +47,6 @@ void showTitle() {
         {"resource/title/title_text.bmp", 250, 50},
     }; //배열의 첫 원소가 가장 아래 그려진다.
 
-    images[3].isHide = TRUE;
     imageLayer.imageCount = 4; //images 배열의 크기보다 작거나 같아야 한다.
     imageLayer.images = images;
 
@@ -170,8 +169,52 @@ void UserName(FILE *fp, char *nn) {
 }
 /*********************성별선택장면 *********************************/
 
+/**********************데이터파일 읽기******************************/
+
 /*********************스태이지 선택*********************************/
 
 void selectStage() {
+    initLayer();
+    Image images[5] = {
+        {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
+        {"resource/difficulty/weekend_day.bmp", 296-150, 290+50},
+        {"resource/difficulty/weekend_night.bmp", 792, 290+50},
+        {"resource/difficulty/weekday.bmp", 1288+150, 290+50},
+        {"resource/difficulty/selected.bmp", 296-166, 290+34}
+    }; //배열의 첫 원소가 가장 아래 그려진다.
+    imageLayer.imageCount = 5;
+    imageLayer.images = images;
+    imageLayer.renderAll(&imageLayer);
+    int key, select = 0;
+    while(1) {
+        key = getch();
+        if (key == RIGHT) {
+            select++;
+        }
+        else if (key == LEFT) {
+            select += 3;
+            select--;
+        }
+        select %= 3;
+
+        switch (select) {
+        case 0:
+            images[4].x = 296-166;
+            imageLayer.renderAll(&imageLayer);
+            break;
+        case 1:
+            images[4].x = 792-16;
+            imageLayer.renderAll(&imageLayer);
+            break;
+        case 2:
+            images[4].x = 1288+150-16;
+            imageLayer.renderAll(&imageLayer);
+            break;
+        }
+
+    }
 
 }
+
+
+/**********************게임시작**************************************/
