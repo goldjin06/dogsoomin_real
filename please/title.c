@@ -30,7 +30,7 @@ void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, 
 
 void initLayer() { // 이미지레이어 초기화
 	imageLayer.initialize(&imageLayer);
-	imageLayer.transparentColor = RGB(255, 255, 255);
+	imageLayer.transparentColor = RGB(0, 255, 0);
 }
 
 /********************타이틀 장면*************************/
@@ -115,9 +115,10 @@ void UserName(FILE *fp, char *nn) {
     initLayer();
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
+        {"resource/text/textarea.bmp", 0, 0}
     }; //배열의 첫 원소가 가장 아래 그려진다.
 
-    imageLayer.imageCount = 1; //images 배열의 크기보다 작거나 같아야 한다.
+    imageLayer.imageCount = 2; //images 배열의 크기보다 작거나 같아야 한다.
     imageLayer.images = images;
 
     imageLayer.renderAll(&imageLayer);
@@ -130,8 +131,8 @@ void UserName(FILE *fp, char *nn) {
         newNickname(fp, nn, imageLayer);
     }
     else {
-        gotoxy(MAX_X / 5, MAX_Y / 3 + 2);
-        printText(imageLayer._consoleDC, 100, 100, 60, 0, RGB(255, 0, 0), TA_LEFT, TEXT("새로하기기 : 1\n불러오기 : 나머지"));
+        printText(imageLayer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("새로하기 : 1"));
+        printText(imageLayer._consoleDC, 100, 200, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("불러오기 : 나머지"));
         if (getch() == '1') {
             fclose(fopen("data/user.txt","w"));
             newNickname(fp, nn, imageLayer);
