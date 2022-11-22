@@ -222,6 +222,7 @@ void readData(FILE *fp, struct information *data) {
     fscanf(fp,"%c\n",&(*data).gender);
     fseek(fp,-1,SEEK_END);
     fscanf(fp,"%c", &(*data).difficultyInformation);
+    fseek(fp,0,SEEK_END);
 }
 
 /*********************스태이지 선택*********************************/
@@ -280,7 +281,7 @@ void selectStage(struct information *data) {
                 printText(imageLayer._consoleDC, 600, 1000, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("아직 선택할 수 없습니다."));
             }
             else {
-                (*data).nowDifficulty == select;  // 0 : easy, 1 : normal, 2 : hard
+                (*data).nowDifficulty = select;  // 0 : easy, 1 : normal, 2 : hard
                 break;
             }
         }
@@ -291,10 +292,11 @@ void selectStage(struct information *data) {
 
 
 /**********************게임시작**************************************/
+
 /**********************클리어, 다시하기*****************************/
 int clear(FILE *fp, struct information data) {
-    if (data.difficultyInformation == 'e') fprintf(fp, "n");
-    else if (data.difficultyInformation == 'n' && data.nowDifficulty == 1) fprintf(fp,"h");
+    if (data.difficultyInformation == 'e') fprintf_s(fp, "n");
+    else if (data.difficultyInformation == 'n' && data.nowDifficulty == 1) fprintf_s(fp,"h");
     initLayer();
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
@@ -316,16 +318,7 @@ int clear(FILE *fp, struct information data) {
             select %= 2;
         }
         else if(key == 13) {
-            switch(select) {
-            case 0:
-                printf("quit");
-                return 0;
-                break;
-            case 1:
-                printf("restart");
-                return 1;
-                break;
-            }
+            return select;
             break;
         }
 

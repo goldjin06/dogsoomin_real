@@ -24,7 +24,7 @@ int main()
         int status = clear(fp, data);
         switch (status) {
         case 0:
-            break;
+            return 0;
         case 1:
             continue;
         }
