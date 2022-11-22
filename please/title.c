@@ -291,3 +291,61 @@ void selectStage(struct information *data) {
 
 
 /**********************게임시작**************************************/
+/**********************클리어, 다시하기*****************************/
+int clear() {
+    //fprintf
+    initLayer();
+    Image images[5] = {
+        {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
+        {"resource/clear/quit_button.bmp",1400,500},
+        {"resource/clear/quit_button_clicked.bmp",1400,500},
+        {"resource/clear/restart_button.bmp",1400,800},
+        {"resource/clear/restart_button_clicked.bmp",1400,800}
+    }; // 迭   u    ?        ?   ?     .
+    imageLayer.imageCount = 5;
+    imageLayer.images = images;
+    int key, select = 0;
+    images[2].isHide = 0;
+    images[4].isHide = 1;
+    imageLayer.renderAll(&imageLayer);
+    while(1) {
+
+        if (key == RIGHT || key == LEFT) {
+            select++;
+            select %= 2;
+        }
+        else if(key == 13) {
+            switch(select) {
+            case 0:
+                printf("quit");
+                return 0;
+                break;
+            case 1:
+                printf("restart");
+                return 1;
+                break;
+            }
+            break;
+        }
+
+        switch (select) {
+        case 0:
+            images[1].isHide = 1;
+            images[2].isHide = 0;
+            images[3].isHide = 0;
+            images[4].isHide = 1;
+            imageLayer.renderAll(&imageLayer);
+            break;
+        case 1:
+            images[1].isHide = 0;
+            images[2].isHide = 1;
+            images[3].isHide = 1;
+            images[4].isHide = 0;
+            imageLayer.renderAll(&imageLayer);
+            break;
+        }
+        key = getch();
+
+    }
+}
+

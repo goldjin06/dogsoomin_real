@@ -1,5 +1,5 @@
 #include "define.h"
-// í™”ë©´ë¹„ìœ¨ == 2160 * 1280
+// È­¸éºñÀ² == 2160 * 1280
 
 
 int main()
@@ -20,6 +20,7 @@ int main()
 
     readData(fp,&data);
     selectStage(&data);
+    clear();
 
 
     return 0;
