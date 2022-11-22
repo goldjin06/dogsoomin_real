@@ -292,8 +292,9 @@ void selectStage(struct information *data) {
 
 /**********************게임시작**************************************/
 /**********************클리어, 다시하기*****************************/
-int clear() {
-    //fprintf
+int clear(FILE *fp, struct information data) {
+    if (data.difficultyInformation == 'e') fprintf(fp, "n");
+    else if (data.difficultyInformation == 'n' && data.nowDifficulty == 1) fprintf(fp,"h");
     initLayer();
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}

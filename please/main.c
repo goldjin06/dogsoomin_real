@@ -18,9 +18,17 @@ int main()
     //DisplayStart();
     UserName(fp,nn);
 
-    readData(fp,&data);
-    selectStage(&data);
-    clear();
+    while (1) {
+        readData(fp,&data);
+        selectStage(&data);
+        int status = clear(fp, data);
+        switch (status) {
+        case 0:
+            break;
+        case 1:
+            continue;
+        }
+    }
 
 
     return 0;
