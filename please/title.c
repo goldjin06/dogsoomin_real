@@ -229,12 +229,12 @@ void readData(FILE *fp, struct information *data) {
 
 void selectStage(struct information *data) {
     initLayer();
-    Image images[5] = {
+    Image images[7] = {
         {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
-        {"resource/difficulty/weekend_day.bmp", 296-150, 290+50},
-        {"resource/difficulty/weekend_night.bmp", 792, 290+50},
-        {"resource/difficulty/weekday.bmp", 1288+150, 290+50},
-        {"resource/difficulty/selected.bmp", 296-166, 290+34}
+        {"resource/difficulty/weekend_day.bmp", 296-150, 290+100},
+        {"resource/difficulty/weekend_night.bmp", 792, 290+100},
+        {"resource/difficulty/weekday.bmp", 1288+150, 290+100},
+        {"resource/difficulty/selected.bmp", 296-166, 290-16+100}
     }; //배열의 첫 원소가 가장 아래 그려진다.
 
     switch((*data).difficultyInformation) {
