@@ -294,7 +294,7 @@ void selectStage(struct information *data) {
 /**********************게임시작**************************************/
 
 /**********************클리어, 다시하기*****************************/
-int clear(FILE *fp, struct information data) {
+int gameClear(FILE *fp, struct information data) {
     if (data.difficultyInformation == 'e') fprintf_s(fp, "n");
     else if (data.difficultyInformation == 'n' && data.nowDifficulty == 1) fprintf_s(fp,"h");
     initLayer();

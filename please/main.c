@@ -21,7 +21,7 @@ int main()
     while (1) {
         readData(fp,&data);
         selectStage(&data);
-        int status = clear(fp, data);
+        int status = gameClear(fp, data);
         switch (status) {
         case 0:
             return 0;
