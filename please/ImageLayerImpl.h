@@ -18,7 +18,7 @@ typedef struct {
 	int width, height;
 }Size;
 
-//È­¸éÀÇ dpi°ªÀ» ¹ÝÈ¯
+//È­     dpi       È¯
  int getDPI(HWND hWnd) {
 	const HANDLE user32 = GetModuleHandle(TEXT("user32"));
 	const FARPROC func = GetProcAddress((HMODULE)user32, "GetDpiForWindow");
@@ -27,7 +27,7 @@ typedef struct {
 	return ((UINT(__stdcall*)(HWND))func)(hWnd);
 }
 
-//ºñÆ®¸ÊÀÇ Å©±â¸¦ ¹ÝÈ¯
+//  Æ®     Å© â¸¦   È¯
  Size getBitmapSize(HBITMAP bitmap) {
 	BITMAP tmpBitmap;
 	GetObject(bitmap, sizeof(BITMAP), &tmpBitmap);
@@ -35,7 +35,7 @@ typedef struct {
 	return bitmapSize;
 }
 
-//°ËÁ¤»öÀÇ »õDC¸¦ ¹ÝÈ¯
+//           DC     È¯
  HDC createNewBackDC(HDC compatibleDC) {
 	const HDC backDC = CreateCompatibleDC(compatibleDC);
 	const HBITMAP backBitmap = CreateCompatibleBitmap(compatibleDC, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -44,7 +44,7 @@ typedef struct {
 	return backDC;
 }
 
-//DC¿¡ ÀÌ¹ÌÁö¸¦ ³Ö¾îÁÜ
+//DC    Ì¹       Ö¾   
  void putBitmapToBackDC(HDC backDC, Image image, UINT transparentColor) {
 	const HDC bitmapDC = CreateCompatibleDC(backDC);
 	const HBITMAP bitmap = (HBITMAP)LoadImage(NULL, (LPCSTR)image.fileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
@@ -65,13 +65,13 @@ typedef struct {
 	DeleteDC(bitmapDC);
 }
 
-//¸ñÇ¥DC¿¡ ¼Ò½ºDC¸¦ º¹»çÇÔ
+//  Ç¥DC    Ò½ DC         
  void applyToDC(HDC dstDC, HDC srcDC) {
 	BitBlt(dstDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT,
 		srcDC, 0, 0, SRCCOPY);
 }
 
-//ÀÌ¹ÌÁö ·¹ÀÌ¾î¸¦ ÃÊ±âÈ­ ÇØÁÜ
+// Ì¹       Ì¾î¸¦  Ê± È­     
  void _initialize(ImageLayer* self) {
 	self->_windowHandle = GetConsoleWindow();
 	self->_consoleDC = GetDC(self->_windowHandle);
@@ -82,7 +82,7 @@ typedef struct {
 	WINDOW_HEIGHT = (int)(CONSOLE_HEIGHT * 2 * DEFAULT_RESOLUTION_SCALE * RESOLUTION_MULTIPLIER);
 }
 
-//¸ðµç ÀÌ¹ÌÁöµéÀÌ µé¾î°£ DC¸¦ ¹ÝÈ¯
+//     Ì¹          î°£ DC     È¯
  HDC getRenderedBackDC(ImageLayer* self) {
 	const HDC backDC = createNewBackDC(self->_consoleDC);
 
@@ -93,7 +93,7 @@ typedef struct {
 	return backDC;
 }
 
-//È­¸é¿¡ ÀÌ¹ÌÁö ·¹ÀÌ¾î¸¦ Ãâ·ÂÇØÁÜ
+//È­ é¿¡  Ì¹       Ì¾î¸¦        
  void _renderAll(ImageLayer* self) {
 	const HDC backDC = getRenderedBackDC(self);
 	if (self->applyToDC != NULL) self->applyToDC(backDC);

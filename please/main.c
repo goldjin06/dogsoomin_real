@@ -1,5 +1,5 @@
 #include "define.h"
-// 화면비율 == 2160 * 1280
+// 화      == 2160 * 1280
 
 
 int main()
@@ -20,23 +20,24 @@ int main()
 
     while (1) {
         readData(fp,&data);
-        selectStage(&data);
-        int status = maze(data);
-        switch (status) {
-        case 0:
-            return 0;
-        case 1:
-            continue;
-        case 2:
-            break;
-        }
-        status = gameClear(fp, data);
-        switch (status) {
-        case 0:
-            return 0;
-        case 1:
-            continue;
-        }
+//        selectStage(&data);
+//        int status = maze(data);
+//        switch (status) {
+//        case 0:
+//            return 0;
+//        case 1:
+//            continue;
+//        case 2:
+//            break;
+//        }
+        roomBack(&data);
+//        status = gameClear(fp, data);
+//        switch (status) {
+//        case 0:
+//            return 0;
+//        case 1:
+//            continue;
+//        }
     }
 
 

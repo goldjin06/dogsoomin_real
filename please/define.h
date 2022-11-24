@@ -39,5 +39,10 @@ HWND WINDOW_HANDLE;
 #define SPACE 32
 #define ENTER 13
 
+#define WINDOW 119
+#define PERFUME 112
+#define LOCKDOOR 100
+#define FANBUTTON 98
+
 
 #endif // DEFINE_H_INCLUDED

@@ -6,7 +6,7 @@
 
 #define FADING_DELAY 20
 
-//»õ·Î¿î BLENDFUNCTIONÀ» ¸¸µé¾î¼­ ¹ÝÈ¯
+//   Î¿  BLENDFUNCTION       î¼­   È¯
  BLENDFUNCTION getBlendFunction() {
 	BLENDFUNCTION bf;
 	bf.AlphaFormat = AC_SRC_OVER;
@@ -44,12 +44,12 @@
 	DeleteDC(backDC);
 }
 
-//ÀÌ¹ÌÁö°¡ Á¡Á¡ ¹à¾ÆÁö´Â È¿°ú¸¦ »ý¼º
+// Ì¹                   È¿         
  void _renderAndFadeIn(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 	_renderAndFade(self, applyToBackDC, 1);
 }
 
-//ÀÌ¹ÌÁö°¡ Á¡Á¡ ¾îµÎ¿öÁö´Â È¿°ú¸¦ »ý¼º
+// Ì¹             Î¿      È¿         
  void _renderAndFadeOut(ImageLayer* self, void(*applyToBackDC)(HDC)) {
 	_renderAndFade(self, applyToBackDC, 0);
 }
