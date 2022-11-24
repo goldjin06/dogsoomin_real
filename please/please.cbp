@@ -47,6 +47,7 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="mazefield.h" />
 		<Unit filename="name.c">
 			<Option compilerVar="CC" />
 		</Unit>

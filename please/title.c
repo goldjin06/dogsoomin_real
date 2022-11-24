@@ -175,7 +175,7 @@ void selectGender(FILE *fp) {
         {"resource/gender/character_girl.bmp", 656, 272},
         {"resource/gender/character_boy.bmp",  1136, 272},
         //{"resource/gender/character_girl_selected.bmp", 1288+150, 290+50},
-        {"resource/gender/character_girl_selected.bmp", 640, 272}
+        {"resource/gender/character_girl_selected.bmp", 640, 272-16}
     }; // 迭   u    ?        ?   ?     .
     imageLayer.imageCount = 4;
     imageLayer.images = images;
@@ -295,15 +295,16 @@ void selectStage(struct information *data) {
 /**********************게임시작**************************************/
 
 /*********************미로 (물뜨기)********************************/
-void printTextMaze() {
+void printTextMaze() { // 디버깅용 텍스트미로 (상당히 어지러움)
+
     for (int i = 0; i < 40; i++) {
         for (int j = 0; j < 135; j++) printf("%c",mazefield[i][j]);
             if (i != 39)printf("\n");
     }
 }
-void maze() {
-    printTextMaze();
+int easyMaze() {
     initLayer();
+
     Image images[10] = {
         {"resource/maze/maze.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
         {"resource/maze/bottle.bmp", 0, 192,4},
@@ -317,15 +318,17 @@ void maze() {
     imageLayer.imageCount = 10; //images 배열의 크기보다 작거나 같아야 한다.
     imageLayer.images = images;
 
-    imageLayer.renderAll(&imageLayer);
+    float Xcoord, Ycoord;
 
     int key, nowX = 0, nowY = 192;
     while (1) {
-        imageLayer.renderAll(&imageLayer);
+
         key = getch();
+
+
         switch (key){
         case LEFT:
-            if (mazefield[nowY/32][(nowX-16)/16]<0 || mazefield[nowY/32][(nowX-16)/16] == 'x' || mazefield[nowY/32+1][(nowX-16)/16] == 'x' || mazefield[nowY/32+2][(nowX-16)/16] == 'x'|| mazefield[(nowY+80)/32][(nowX-16)/16] == 'x') break;
+            if (mazefield[nowY/32][(nowX-16)/16]<0 || mazefield[nowY/32+1][(nowX-16)/16]<0 || mazefield[nowY/32+2][(nowX-16)/16]<0 || mazefield[(nowY+80)/32][(nowX-16)/16]<0 || mazefield[nowY/32][(nowX-16)/16] == 'x' || mazefield[nowY/32+1][(nowX-16)/16] == 'x' || mazefield[nowY/32+2][(nowX-16)/16] == 'x'|| mazefield[(nowY+80)/32][(nowX-16)/16] == 'x') break;
             images[1].x -= 16;
             nowX -= 16;
             break;
@@ -345,8 +348,37 @@ void maze() {
             nowY += 16;
             break;
         }
+        imageLayer.renderAll(&imageLayer);
+        gotoxy(0,0);
+        printf("%3.1f %3.1f",(float)nowX/16, (float)nowY/32);
+
+        Xcoord = nowX/16.0; Ycoord = nowY/32.0;
+        if ((Ycoord >= 5 && Ycoord <= 7 && (Xcoord == 26||Xcoord == 103))||(Ycoord >= 26 && Ycoord <= 28 && Xcoord == 55)||(Ycoord >= 19 && Ycoord <= 21 && Xcoord == 74)) {
+
+            return gameFail();
+        }
+        if (Xcoord>= 121 && Xcoord <= 125 && Ycoord == 9.5) {
+
+            return 2;
+        }
     }
-    getchar();
+
+}
+int maze(struct information data) {
+    printf("%d",data.nowDifficulty);
+    getch();
+    switch (data.nowDifficulty) {
+    case 0:
+        return easyMaze();
+        break;
+    case 1:
+     //   return normalMaze();
+        break;
+    case 2:
+      //  return hardMaze();
+        break;
+    }
+    return 2;
 }
 /*********************기숙사 (라면먹기) ***************************/
 
@@ -354,6 +386,58 @@ void maze() {
 
 
 /***********************실패****************************************/
+
+int gameFail() {
+    system("cls");
+    initLayer();
+    Image images[6] = {
+        {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
+        {"resource/clear/quit_button.bmp",1400,500},
+        {"resource/clear/quit_button_clicked.bmp",1400,500},
+        {"resource/clear/restart_button.bmp",1400,800},
+        {"resource/clear/restart_button_clicked.bmp",1400,800},
+        {"resource/fail/report.bmp",160,50}
+    }; // 迭   u    ?        ?   ?     .
+    imageLayer.imageCount = 6;
+    imageLayer.images = images;
+    int key, select = 0;
+    images[2].isHide = 0;
+    images[4].isHide = 1;
+    imageLayer.renderAll(&imageLayer);
+    while(1) {
+
+        if (key == RIGHT || key == LEFT) {
+            select++;
+            select %= 2;
+        }
+        else if(key == 13) {
+            return select;
+            break;
+        }
+
+        switch (select) {
+        case 0:
+            images[1].isHide = 1;
+            images[2].isHide = 0;
+            images[3].isHide = 0;
+            images[4].isHide = 1;
+            imageLayer.renderAll(&imageLayer);
+            break;
+        case 1:
+            images[1].isHide = 0;
+            images[2].isHide = 1;
+            images[3].isHide = 1;
+            images[4].isHide = 0;
+            imageLayer.renderAll(&imageLayer);
+            break;
+        }
+        key = getch();
+
+    }
+}
+
+
+
 /**********************클리어, 다시하기*****************************/
 int gameClear(FILE *fp, struct information data) {
     if (data.difficultyInformation == 'e') fprintf_s(fp, "n");
