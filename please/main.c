@@ -21,6 +21,7 @@ int main()
     while (1) {
         readData(fp,&data);
         selectStage(&data);
+        maze();
         int status = gameClear(fp, data);
         switch (status) {
         case 0:

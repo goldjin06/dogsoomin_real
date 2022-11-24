@@ -1,6 +1,7 @@
 #include "define.h"
 #include "title.h"
 #include "ImageLayer.h"
+#include "mazefield.h"
 ImageLayer imageLayer = { NULL, 0, RGB(0,0,0) , NULL, NULL,_initialize, _renderAll, _renderAndFadeIn, _renderAndFadeOut, NULL };
 INPUT_RECORD rec;
 DWORD dwNOER;
@@ -171,10 +172,10 @@ void selectGender(FILE *fp) {
     initLayer();
     Image images[4] = {
         {"resource/background/start_background.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
-        {"resource/gender/character_girl.bmp", 296-150, 290+50},
-        {"resource/gender/character_boy.bmp", 792, 290+50},
+        {"resource/gender/character_girl.bmp", 656, 272},
+        {"resource/gender/character_boy.bmp",  1136, 272},
         //{"resource/gender/character_girl_selected.bmp", 1288+150, 290+50},
-        {"resource/gender/character_girl_selected.bmp", 296-166, 290+34}
+        {"resource/gender/character_girl_selected.bmp", 640, 272}
     }; // 迭   u    ?        ?   ?     .
     imageLayer.imageCount = 4;
     imageLayer.images = images;
@@ -200,12 +201,12 @@ void selectGender(FILE *fp) {
 
         switch (select) {
         case 0:
-            images[3].x = 296-166;
+            images[3].x = 640;
             images[3].fileName = "resource/gender/character_girl_selected.bmp";
             imageLayer.renderAll(&imageLayer);
             break;
         case 1:
-            images[3].x = 792-16;
+            images[3].x = 1120;
             images[3].fileName = "resource/gender/character_boy_selected.bmp";
             imageLayer.renderAll(&imageLayer);
             break;
@@ -293,6 +294,66 @@ void selectStage(struct information *data) {
 
 /**********************게임시작**************************************/
 
+/*********************미로 (물뜨기)********************************/
+void printTextMaze() {
+    for (int i = 0; i < 40; i++) {
+        for (int j = 0; j < 135; j++) printf("%c",mazefield[i][j]);
+            if (i != 39)printf("\n");
+    }
+}
+void maze() {
+    printTextMaze();
+    initLayer();
+    Image images[10] = {
+        {"resource/maze/maze.bmp", 0, 0}, //{이미지 이름, 시작 x좌표, 시작 y좌표, 크기 배율(쓰지 않으면 기본값인 16이 들어감)}
+        {"resource/maze/bottle.bmp", 0, 192,4},
+        {"resource/maze/red_cap.bmp", 315, 175,6},
+        {"resource/maze/yong_glasses.bmp", 780, 845,6},
+        {"resource/maze/red_cap.bmp", 1260, 625,6},
+        {"resource/maze/yong_glasses.bmp", 1725, 170,6},
+        {"resource/maze/water.bmp", 1950, 170,3},
+    }; //배열의 첫 원소가 가장 아래 그려진다.
+
+    imageLayer.imageCount = 10; //images 배열의 크기보다 작거나 같아야 한다.
+    imageLayer.images = images;
+
+    imageLayer.renderAll(&imageLayer);
+
+    int key, nowX = 0, nowY = 192;
+    while (1) {
+        imageLayer.renderAll(&imageLayer);
+        key = getch();
+        switch (key){
+        case LEFT:
+            if (mazefield[nowY/32][(nowX-16)/16]<0 || mazefield[nowY/32][(nowX-16)/16] == 'x' || mazefield[nowY/32+1][(nowX-16)/16] == 'x' || mazefield[nowY/32+2][(nowX-16)/16] == 'x'|| mazefield[(nowY+80)/32][(nowX-16)/16] == 'x') break;
+            images[1].x -= 16;
+            nowX -= 16;
+            break;
+        case RIGHT:
+            if (mazefield[nowY/32][(nowX+96)/16]>135 || mazefield[nowY/32][(nowX+96)/16] == 'x' || mazefield[nowY/32+1][(nowX+96)/16] == 'x' || mazefield[nowY/32+2][(nowX+96)/16] == 'x'|| mazefield[(nowY+80)/32][(nowX+96)/16] == 'x') break;
+            images[1].x += 16;
+            nowX += 16;
+            break;
+        case UP:
+            if (mazefield[(nowY-16)/32][nowX/16] =='x'||mazefield[(nowY-16)/32][nowX/16+1] =='x'||mazefield[(nowY-16)/32][nowX/16+2] =='x'||mazefield[(nowY-16)/32][nowX/16+3] =='x'||mazefield[(nowY-16)/32][nowX/16+4] =='x'||mazefield[(nowY-16)/32][nowX/16+5] =='x') break;
+            images[1].y -= 16;
+            nowY -= 16;
+            break;
+        case DOWN:
+            if (mazefield[(nowY+96)/32][nowX/16] =='x'||mazefield[(nowY+96)/32][nowX/16+1] =='x'||mazefield[(nowY+96)/32][nowX/16+2] =='x'||mazefield[(nowY+96)/32][nowX/16+3] =='x'||mazefield[(nowY+96)/32][nowX/16+4] =='x'||mazefield[(nowY+96)/32][nowX/16+5] =='x') break;
+            images[1].y += 16;
+            nowY += 16;
+            break;
+        }
+    }
+    getchar();
+}
+/*********************기숙사 (라면먹기) ***************************/
+
+
+
+
+/***********************실패****************************************/
 /**********************클리어, 다시하기*****************************/
 int gameClear(FILE *fp, struct information data) {
     if (data.difficultyInformation == 'e') fprintf_s(fp, "n");
