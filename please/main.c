@@ -7,6 +7,7 @@ int main()
 
     system("chcp 65001");
     system("cls");
+
     struct information data;
 
     ClearCursor();
@@ -21,6 +22,7 @@ int main()
     while (1) {
         readData(fp,&data);
         selectStage(&data);
+        //printf("%d",data.nowDifficulty);
 //        int status = maze(data);
 //        switch (status) {
 //        case 0:

@@ -7,33 +7,33 @@ DWORD dwNOER;
 HANDLE CIN = 0;
 
 void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) { //  ̹                    Լ
-	if (weight == 0) weight = 900;
-	size = (int)(size * RESOLUTION_MULTIPLIER);
-	const HFONT font = CreateFont(size, 0, angle, 0, weight, 0, 0, 0, HANGEUL_CHARSET,
-		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("    "));
+   if (weight == 0) weight = 900;
+   size = (int)(size * RESOLUTION_MULTIPLIER);
+   const HFONT font = CreateFont(size, 0, angle, 0, weight, 0, 0, 0, HANGEUL_CHARSET,
+      0, 0, 0, VARIABLE_PITCH | FF_ROMAN, TEXT("    "));
 
-	SelectObject(hdc, font);
-	SetBkMode(hdc, TRANSPARENT);
-	SetTextColor(hdc, textColor);
-	SetTextAlign(hdc, align);
+   SelectObject(hdc, font);
+   SetBkMode(hdc, TRANSPARENT);
+   SetTextColor(hdc, textColor);
+   SetTextAlign(hdc, align);
 
-	x = (int)(x * RESOLUTION_MULTIPLIER);
-	y = (int)(y * RESOLUTION_MULTIPLIER);
-	TextOut(hdc, x, y, text, lstrlen(text));
+   x = (int)(x * RESOLUTION_MULTIPLIER);
+   y = (int)(y * RESOLUTION_MULTIPLIER);
+   TextOut(hdc, x, y, text, lstrlen(text));
 
-	PAINTSTRUCT paint;
-	EndPaint(WINDOW_HANDLE, &paint);
+   PAINTSTRUCT paint;
+   EndPaint(WINDOW_HANDLE, &paint);
 
-	DeleteObject(font);
+   DeleteObject(font);
 }
 
 void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) { //  ̹                    Լ
-	printTextWithAngle(hdc, x, y, size, weight, 0, textColor, align, text);
+   printTextWithAngle(hdc, x, y, size, weight, 0, textColor, align, text);
 }
 
 void initLayer() { //  ̹      ̾   ʱ ȭ
-	imageLayer.initialize(&imageLayer);
-	imageLayer.transparentColor = RGB(0, 255, 0);
+   imageLayer.initialize(&imageLayer);
+   imageLayer.transparentColor = RGB(0, 255, 0);
 }
 
 /********************Ÿ  Ʋ    *************************/
@@ -502,7 +502,7 @@ void roomBack(struct information *data) {
         {"resource/room_back/window_closed_day.bmp",  1008, 64},
         {"resource/room_back/perfume.bmp", 1072, 912},
     }; //      u    ?        ?   ?     .
-
+    //printf("%d",(*data).nowDifficulty);
     window %= 2;
     if(window == 1) {
         if((*data).nowDifficulty != 0)
@@ -525,7 +525,7 @@ void roomBack(struct information *data) {
     while(1) {
         key = getch();
         if (key == LEFT) {
-            roomFront(&data);
+            roomFront(data);
         }
 
         switch (key) {
@@ -567,7 +567,7 @@ void roomFront(struct information *data) {
         {"resource/room_front/perfume.bmp", 1136, 784},
         {"resource/room_front/door_handle.bmp", 736, 560},
     }; //      u    ?        ?   ?     .
-
+    //printf("%d",(*data).nowDifficulty);
     fan %= 2;
     if(fan == 1)
         images[2].fileName = "resource/room_front/fan_clicked.bmp";
@@ -588,7 +588,7 @@ void roomFront(struct information *data) {
     while(1) {
         key = getch();
         if (key == RIGHT) {
-            roomBack(&data);
+            roomBack(data);
         }
         switch (key) {
         case FANBUTTON:
