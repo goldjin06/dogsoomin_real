@@ -22,24 +22,23 @@ int main()
     while (1) {
         readData(fp,&data);
         selectStage(&data);
-        //printf("%d",data.nowDifficulty);
-//        int status = maze(data);
-//        switch (status) {
-//        case 0:
-//            return 0;
-//        case 1:
-//            continue;
-//        case 2:
-//            break;
-//        }
+        int status = maze(data);
+        switch (status) {
+        case 0:
+            return 0;
+        case 1:
+            continue;
+        case 2:
+            break;
+        }
         roomFront(&data);
-//        status = gameClear(fp, data);
-//        switch (status) {
-//        case 0:
-//            return 0;
-//        case 1:
-//            continue;
-//        }
+        status = gameClear(fp, data);
+        switch (status) {
+        case 0:
+            return 0;
+        case 1:
+            continue;
+       }
     }
 
 
