@@ -52,6 +52,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="name.h" />
+		<Unit filename="room.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="title.c">
 			<Option compilerVar="CC" />
 		</Unit>
