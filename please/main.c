@@ -20,7 +20,7 @@ int main()
 
     while (1) {
         readData(fp,&data);
-//        selectStage(&data);
+        selectStage(&data);
 //        int status = maze(data);
 //        switch (status) {
 //        case 0:
@@ -30,7 +30,7 @@ int main()
 //        case 2:
 //            break;
 //        }
-        roomBack(&data);
+        roomFront(&data);
 //        status = gameClear(fp, data);
 //        switch (status) {
 //        case 0:
