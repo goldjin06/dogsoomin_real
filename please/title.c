@@ -389,20 +389,26 @@ int hardMaze(Image *images) {
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
 
-    int key, nowX = 0, nowY = 192, hard = 14; // now position in pixel
+    int key, nowX = 0, nowY = 192, hardset = (rand()%10)*2+20, hard = 0; // now position in pixel
     float Xcoord, Ycoord; // now position in array
     while (1) {
+
+
+        gotoxy(0,0);
+        printf("%2d %2d",hard,hardset);
+
         if (hard == 0) {
             for (int i = 0;  i < 9; i++) {if(i != 1)images[i].isHide = 1;}
         }
-        else if (hard == 14) {
+        else if (hard == hardset-2) {
             for (int i = 0;  i < 9; i++) images[i].isHide = 0;
+            hardset = (rand()%10)*2+20;
+            hard = -2;
         }
 
+        hard++;
         moveCharacter(&nowX, &nowY,images);
         imageLayer.renderAll(&imageLayer);
-        gotoxy(0,0);
-        printf("%3.1f %3.1f",(float)nowX/16, (float)nowY/32);
         Xcoord = nowX/16.0; Ycoord = nowY/32.0;
         if ((Ycoord >= 5 && Ycoord <= 7 && (Xcoord == 26||Xcoord == 103))||(Ycoord >= 26 && Ycoord <= 28 && Xcoord == 55)||(Ycoord >= 19 && Ycoord <= 21 && Xcoord == 74)) {
 
@@ -416,8 +422,8 @@ int hardMaze(Image *images) {
 
             return 2; // clear
         }
-        hard++;
-        hard %= 15;
+
+
     }
 
 }
