@@ -1,13 +1,16 @@
 #include "define.h"
 #include "ImageLayer.h"
 #include "mazefield.h"
+#include <mmsystem.h>
+#pragma comment(lib,"winmm.lib")
+
 ImageLayer imageLayer = { NULL, 0, RGB(0,0,0) , NULL, NULL,_initialize, _renderAll, _renderAndFadeIn, _renderAndFadeOut, NULL };
 INPUT_RECORD rec;
 DWORD dwNOER;
 HANDLE CIN = 0;
 
 /*****************************>>>>> GAME SETING <<<<<<*********************************/
-void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) { //  ?                    ?
+void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) {
    if (weight == 0) weight = 900;
    size = (int)(size * RESOLUTION_MULTIPLIER);
    const HFONT font = CreateFont(size, 0, angle, 0, weight, 0, 0, 0, HANGEUL_CHARSET,
@@ -28,11 +31,11 @@ void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, 
    DeleteObject(font);
 }
 
-void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) { //  ?                    ?
+void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, int align, char* text) {
    printTextWithAngle(hdc, x, y, size, weight, 0, textColor, align, text);
 }
 
-void initLayer() { //  ?      ?   ? ?
+void initLayer() {
    imageLayer.initialize(&imageLayer);
    imageLayer.transparentColor = RGB(0, 255, 0);
 }
@@ -43,12 +46,11 @@ void showTitle() {
 
     initLayer();
     Image images[7] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ ?     ? ,      x  ?,      y  ?, ?       (             ?     16     ?)}
+        {"resource/background/start_background.bmp", 0, 0},
         {"resource/title/start_button.bmp", 700, 500},
         {"resource/title/title_text.bmp", 250, 50},
-    }; //      u    ?        ?   ?     .
-
-    imageLayer.imageCount = 4; //images       ? ?    ??     ?   ? .
+    };
+    imageLayer.imageCount = 4;
     imageLayer.images = images;
 
     imageLayer.renderAll(&imageLayer);
@@ -76,45 +78,45 @@ void showTitle() {
 }
 
 /******************** NEW / LOAD *************************/
-void newNickname(FILE* fp, char* nn, ImageLayer layer) { //
+void newNickname(FILE* fp, char* nn, ImageLayer layer) {
 
     initLayer();
 
     Image images[5] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ ?     ? ,      x  ?,      y  ?, ?       (             ?     16     ?)}
+        {"resource/background/start_background.bmp", 0, 0},
         {"resource/text/textarea.bmp", 150, 300}
     }; //      u    ?        ?   ?     .
     imageLayer.renderAll(&imageLayer);
     int len = 0;
     char pressedKey;
-    printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, (" ̸     Է    ּ    (8~14              մϴ )"));
+    printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, (" ﾌｸ     ﾔｷ    ﾖｼ    (8~14        鋕ｸ      ﾕｴﾏｴ )"));
 
     while (3) {
         //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 
         initLayer();
         imageLayer.renderAll(&imageLayer);
-        printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, (" ̸     Է    ּ    (8~14              մϴ )"));
+        printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, (" ﾌｸ     ﾔｷ    ﾖｼ    (8~14        鋕ｸ      ﾕｴﾏｴ )"));
         printText(layer._consoleDC, 300, 550, 60, 0, RGB(0, 0, 255), TA_LEFT, ("%s", nn)); //    ?
-        if (len != 0) printText(layer._consoleDC, 300, 650, 60, 0, RGB(0, 0, 0), TA_LEFT, (" Ϸ Ǿ         ͸       ּ   "));
+        if (len != 0) printText(layer._consoleDC, 300, 650, 60, 0, RGB(0, 0, 0), TA_LEFT, (" ﾏｷ ﾇｾ         ﾍｸ       ﾖｼ   "));
 
 
-        pressedKey = _getch(); // ?      ?  ?
+        pressedKey = _getch();
 
         if (pressedKey == 13) {
-            if (len == 0) continue; //  ?                ??    ?
+            if (len == 0) continue;
             fprintf(fp, "%s\n", nn);
             selectGender(fp);
             break;
         }
-        if (pressedKey == '\b') { //  ?   ?
+        if (pressedKey == '\b') {
             if (len == 0) continue;
             len--;
             nn[len] = NULL;
             continue;
         }
 
-        if (len > 13) { // 14      ??       ?   ?       ?
+        if (len > 13) {
             //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
             printText(layer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, ("Exceeded 14 character."));
             while (3) {
@@ -125,7 +127,7 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) { //
             }
             continue;
         }
-        nn[len] = pressedKey; //        ?            ?
+        nn[len] = pressedKey;
         len++;
 
 
@@ -134,10 +136,10 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) { //
 
 void UserName(FILE *fp, char *nn) {
     initLayer();
-    Image images[5] = { //     ?
+    Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0},
         {"resource/text/textarea.bmp", 150, 300}
-    }; //      u    ?        ?   ?     .
+    };
 
     imageLayer.imageCount = 2;
     imageLayer.images = images;
@@ -153,7 +155,7 @@ void UserName(FILE *fp, char *nn) {
     }
     else {
         printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("          : 1"));
-        printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT(" ҷ     : 2"));
+        printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT(" ﾒｷ     : 2"));
         if (getch() == '1') {//     ??                                                 .
             fp = freopen("data/user.txt","w",fp);
             fp = freopen("data/user.txt","r+",fp);
@@ -273,7 +275,7 @@ void selectStage(struct information *data) {
 
         if (key == ENTER) {
             if (images[select+1].fileName == "resource/difficulty/weekend_night_locked.bmp" ||images[select+1].fileName == "resource/difficulty/weekday_locked.bmp") {
-                printText(imageLayer._consoleDC, 600, 1000, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("                    ϴ ."));
+                printText(imageLayer._consoleDC, 600, 1000, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("                    ﾏｴ ."));
             }
             else {
                 (*data).nowDifficulty = select;  // 0 : easy, 1 : normal, 2 : hard
@@ -445,18 +447,17 @@ int maze(struct information data) {
     }
     return 2;
 }
-/*********************      (   ? ) ***************************/
 
 
 
 
-/***********************    ****************************************/
+/***********************GAME FAIL****************************************/
 
 int gameFail() {
     system("cls");
     initLayer();
     Image images[6] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ ?     ? ,      x  ?,      y  ?, ?       (             ?     16     ?)}
+        {"resource/background/start_background.bmp", 0, 0},
         {"resource/clear/quit_button.bmp",1400,500},
         {"resource/clear/quit_button_clicked.bmp",1400,500},
         {"resource/clear/restart_button.bmp",1400,800},
@@ -503,7 +504,7 @@ int gameFail() {
 
 
 
-/**********************?    ,  ?  ? *****************************/
+/********************** CLEAR *****************************/
 int gameClear(FILE *fp, struct information data) {
     if (data.difficultyInformation == 'e') fprintf_s(fp, "n");
     else if (data.difficultyInformation == 'n' && data.nowDifficulty == 1) fprintf_s(fp,"h");
@@ -553,17 +554,17 @@ int gameClear(FILE *fp, struct information data) {
     }
 }
 
-/**********************      *********************/
+/********************** BEFORE EATING *********************/
 
 int roomBack(struct information *data, int window, int perfume, int fan, int lock) {
     initLayer();
     Image images[5] = {
-        {"resource/room_back/view1.bmp", 0, 0}, //{ ?     ? ,      x  ?,      y  ?, ?       (             ?     16     ?)}
+        {"resource/room_back/view1.bmp", 0, 0},
         {"resource/room_back/left_arrow.bmp", 32, 560},
         {"resource/room_back/window_closed_day.bmp",  1008, 64},
         {"resource/room_back/perfume.bmp", 1072, 912},
         {"resource/room_back/go.bmp", 2080-176, 1040},
-    }; //      u    ?        ?   ?     .
+    };
 
     window %= 2;
     if(window == 1) {
@@ -583,8 +584,7 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
     int key, select = 0, enter = 0;
-    int count = 0; //      Ѹ   ,      ױ , ȯǳ   Ʋ  , â           ּ  4    ؾ     ƴϸ  Ż
-
+    int count = 0;
     while(1) {
         key = getch();
         count = window + perfume + fan + lock;
@@ -607,20 +607,24 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
                     images[2].fileName = "resource/room_back/window_opened_night.bmp";
                 else
                     images[2].fileName = "resource/room_back/window_opened_day.bmp";
+                PlaySound("sound/window_open.wav",NULL,SND_FILENAME|SND_ASYNC);
             }
             else {
                 if((*data).nowDifficulty != 0)
                     images[2].fileName = "resource/room_back/window_closed_night.bmp";
                 else
                     images[2].fileName = "resource/room_back/window_closed_day.bmp";
+                PlaySound("sound/window_close.wav",NULL,SND_FILENAME|SND_ASYNC);
             }
             imageLayer.renderAll(&imageLayer);
+            Sleep(300);
             window++;
             break;
         case PERFUME:
             images[3].fileName = "resource/room_back/perfume_selected.bmp";
             imageLayer.renderAll(&imageLayer);
-            Sleep(300); // sound
+            PlaySound("sound/perfume.wav",NULL,SND_FILENAME|SND_ASYNC);
+            Sleep(300);
             images[3].fileName = "resource/room_back/perfume.bmp";
             imageLayer.renderAll(&imageLayer);
             perfume = 1;
@@ -641,22 +645,21 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
     }; //      u    ?        ?   ?     .
 
     fan %= 2;
+    lock %= 2;
+
     if(fan == 1)
         images[2].fileName = "resource/room_front/fan_clicked.bmp";
-    else
-        images[2].fileName = "resource/room_front/fan.bmp";
 
-    lock %= 2;
+
     if(lock == 1)
         images[4].fileName = "resource/room_front/lock_door.bmp";
-    else
-        images[4].fileName = "resource/room_front/door_handle.bmp";
 
     imageLayer.imageCount = 6;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
+
     int key, select = 0, enter = 0;
-    int count = 0; //      Ѹ   ,      ױ , ȯǳ   Ʋ  , â           ּ  4    ؾ     ƴϸ  Ż
+    int count = 0;
 
     while(1) {
         key = getch();
@@ -680,12 +683,15 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
                 images[2].fileName = "resource/room_front/fan_clicked.bmp";
             else
                 images[2].fileName = "resource/room_front/fan.bmp";
+            PlaySound("sound/fan.wav",NULL,SND_FILENAME|SND_ASYNC);
             imageLayer.renderAll(&imageLayer);
+            Sleep(300);
             fan++;
             break;
         case PERFUME:
             images[3].fileName = "resource/room_front/perfume_selected.bmp";
             imageLayer.renderAll(&imageLayer);
+            PlaySound("sound/perfume.wav",NULL,SND_FILENAME|SND_ASYNC);
             Sleep(300); // sound
             images[3].fileName = "resource/room_front/perfume.bmp";
             imageLayer.renderAll(&imageLayer);
@@ -698,6 +704,8 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
             else
                 images[4].fileName = "resource/room_front/door_handle.bmp";
             imageLayer.renderAll(&imageLayer);
+            PlaySound("sound/door_lock.wav",NULL,SND_FILENAME|SND_ASYNC);
+            Sleep(300); // sound
             lock++;
             break;
         }
@@ -713,15 +721,14 @@ int eatRamen(struct information *data, int prepare) {
     system("cls");
     Sleep(1000);
     Image images[5] = {
-        {"resource/room_front/view2.bmp", 0, 0}, //{ ?     ? ,      x  ?,      y  ?, ?       (             ?     16     ?)}
-    }; //      u    ?        ?   ?     .
-
+        {"resource/room_front/view2.bmp", 0, 0},
+    };
 
     imageLayer.imageCount = 5;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
     int key, select = 0, enter = 0;
-    int count = 0; //      Ѹ   ,      ױ , ȯǳ   Ʋ  , â           ּ  4    ؾ     ƴϸ  Ż
+    int count = 0;
 
     while(1) {
         key = getch();
