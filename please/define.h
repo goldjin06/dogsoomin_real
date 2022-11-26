@@ -44,5 +44,8 @@ HWND WINDOW_HANDLE;
 #define LOCKDOOR 100
 #define FANBUTTON 102
 
+#define EAT 101
+#define HIDE 104
+
 
 #endif // DEFINE_H_INCLUDED

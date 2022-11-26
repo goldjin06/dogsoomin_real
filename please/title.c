@@ -727,7 +727,10 @@ int eatRamen(struct information *data, int prepare) {
     system("cls");
     Sleep(1000);
     Image images[5] = {
-        {"resource/room_front/view2.bmp", 0, 0},
+        {"resource/eat_ramen/view2.bmp", 0, 0},
+        {"resource/eat_ramen/hunger_gauge.bmp", 1888, 256},
+        {"resource/eat_ramen/eat.bmp", 1648, 560},
+        {"resource/eat_ramen/hide.bmp", 1648, 800},
     };
 
     imageLayer.imageCount = 5;
@@ -739,6 +742,28 @@ int eatRamen(struct information *data, int prepare) {
     while(1) {
         key = getch();
 
+        switch(key) {
+        case EAT:
+            count++;
+            if(count == 10) // have to change number
+                images[1].fileName = "resource/eat_ramen/hunger_gauge15.bmp";
+            else if(count == 18)
+                images[1].fileName = "resource/eat_ramen/hunger_gauge30.bmp";
+            else if(count == 30)
+                images[1].fileName = "resource/eat_ramen/hunger_gauge45.bmp";
+            else if(count == 48)
+                images[1].fileName = "resource/eat_ramen/hunger_gauge60.bmp";
+            else if(count == 57)
+                images[1].fileName = "resource/eat_ramen/hunger_gauge75.bmp";
+            else if(count == 75)
+                images[1].fileName = "resource/eat_ramen/hunger_gauge90.bmp";
+            else if(count == 85)
+                images[1].fileName = "resource/eat_ramen/hunger_gauge95.bmp";
+            else if(count == 100)
+                images[1].fileName = "resource/eat_ramen/hunger_gauge100.bmp";
+            imageLayer.renderAll(&imageLayer);
+            break;
+        }
         // key : eating(with eating sound) -> hunger gaze rises, hiding, footstep sound, knocking sound
     }
 }
