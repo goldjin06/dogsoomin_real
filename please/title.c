@@ -298,7 +298,7 @@ void printTextMaze() { //print maze in text under image.
             if (i != 39)printf("\n");
     }
 }
-void moveCharacter(int * nowX, int *nowY, Image *images) {
+int moveCharacter(int * nowX, int *nowY, Image *images) {
     int key = getch();
 
     switch (key){
@@ -322,6 +322,9 @@ void moveCharacter(int * nowX, int *nowY, Image *images) {
             images[1].y += 16;
             *nowY += 16;
             break;
+        case ENTER:
+            return 2;
+            break;
     }
 }
 int easyMaze(Image *images) {
@@ -337,7 +340,7 @@ int easyMaze(Image *images) {
     float Xcoord, Ycoord; // now position in array
     while (1) {
 
-        moveCharacter(&nowX, &nowY,images);
+        int a = moveCharacter(&nowX, &nowY,images);
         imageLayer.renderAll(&imageLayer);
         //gotoxy(0,0);
         //printf("%3.1f %3.1f",(float)nowX/16, (float)nowY/32);
@@ -346,7 +349,7 @@ int easyMaze(Image *images) {
 
             return gameFail();
         }
-        if (Xcoord>= 121 && Xcoord <= 125 && Ycoord == 9.5) {
+        if (a == 2 || (Xcoord>= 121 && Xcoord <= 125 && Ycoord == 9.5)) {
 
             return 2; // clear
         }
@@ -600,7 +603,7 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
             if(enter == 1)
                 images[4].fileName = "resource/room_back/go_pressed.bmp";
             else
-                eatRamen(data, count, lock);
+                return 0;
             imageLayer.renderAll(&imageLayer);
             break;
         case LEFT:
@@ -677,7 +680,7 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
                 images[5].fileName = "resource/room_front/go_pressed.bmp";
 
             else
-                eatRamen(data, count, lock);
+                return 0;
             imageLayer.renderAll(&imageLayer);
             break;
         case RIGHT:
@@ -738,12 +741,18 @@ int eatRamen(struct information *data, int prepare) {
     imageLayer.renderAll(&imageLayer);
     int key, select = 0, enter = 0;
     int count = 0;
+    int isHide = 0;
+    int teacher = 1; // 1 : not comming, 2 : knocking, 3 : coming
 
     while(1) {
         key = getch();
-
+        if (count%10 == 1) teacher = 2;
+        else if (teacher == 2) teacher = 3;
+        if (teacher == 3 && isHide == 0) gameFail();
+        if (teacher == 3) teacher = 1;
         switch(key) {
         case EAT:
+            isHide = 0;
             count++;
             if(count == 10) // have to change number
                 images[1].fileName = "resource/eat_ramen/hunger_gauge15.bmp";
@@ -763,7 +772,12 @@ int eatRamen(struct information *data, int prepare) {
                 images[1].fileName = "resource/eat_ramen/hunger_gauge100.bmp";
             imageLayer.renderAll(&imageLayer);
             break;
+        case HIDE:
+            isHide = 1;
+
+
         }
         // key : eating(with eating sound) -> hunger gaze rises, hiding, footstep sound, knocking sound
+        if (count >= 100) return 2;
     }
 }

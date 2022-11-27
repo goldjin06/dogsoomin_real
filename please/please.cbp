@@ -17,7 +17,6 @@
 				<Linker>
 					<Add library="C:/Windows/System32/gdi32.dll" />
 					<Add library="C:/Windows/System32/msimg32.dll" />
-					<Add library="C:/Windows/System32/winmm.dll" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -53,9 +52,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="name.h" />
-		<Unit filename="room.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="title.c">
 			<Option compilerVar="CC" />
 		</Unit>
