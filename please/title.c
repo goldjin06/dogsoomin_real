@@ -375,7 +375,7 @@ int normalMaze(Image *images) {
 
             return gameFail();
         }
-        if ((Xcoord >= 53 && Xcoord <= 56 && Ycoord > 9 && Ycoord <= 21)||(Xcoord >= 121 && Xcoord <= 125 && Ycoord >= 19 && Ycoord <= 28)) {
+        if ((Xcoord >= 53 && Xcoord <= 56 && Ycoord > 9 && Ycoord <= 21)||(Xcoord >= 122 && Xcoord <= 125 && Ycoord >= 19 && Ycoord <= 28)) {
 
             return gameFail();
         }
@@ -417,7 +417,7 @@ int hardMaze(Image *images) {
 
             return gameFail();
         }
-        if ((Xcoord >= 53 && Xcoord <= 56 && Ycoord > 9 && Ycoord <= 21)||(Xcoord >= 121 && Xcoord <= 125 && Ycoord >= 19 && Ycoord <= 28)) {
+        if ((Xcoord >= 53 && Xcoord <= 56 && Ycoord > 9 && Ycoord <= 21)||(Xcoord >= 122 && Xcoord <= 125 && Ycoord >= 19 && Ycoord <= 28)) {
 
             return gameFail();
         }
@@ -463,7 +463,6 @@ int maze(struct information data) {
 /***********************GAME FAIL****************************************/
 
 int gameFail() {
-    system("cls");
     initLayer();
     Image images[6] = {
         {"resource/background/start_background.bmp", 0, 0},
@@ -727,7 +726,6 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
 
 int eatRamen(struct information *data, int prepare) {
     initLayer();
-    system("cls");
     Sleep(1000);
     Image images[6] = {
         {"resource/eat_ramen/view2.bmp", 0, 0},
@@ -748,16 +746,22 @@ int eatRamen(struct information *data, int prepare) {
     while(1) {
 
         //if (teacher == 1 && (count+1)%10 == 1) // footstep
-        if (teacher == 1 && count%10 == 1) teacher = 2; // knocking
-        else if (teacher == 2) teacher = 3;
-        if (teacher == 3 && isHide == 0) gameFail(); // door open & 위웅위웅위웅윙
-        if (teacher == 3 && isHide == 1) {
+        if (teacher == 1 && count%10 == 1) {
+                teacher = 2;
+                PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
+        } // knocking
+        else if (teacher == 2) {
+                teacher = 3;
+        }
+        if (teacher == 3 && isHide == 0) return gameFail(); // door open & 위웅위웅위웅윙
+        if (teacher == 3) {
             images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
             images[5].x = 512;
             images[5].y = 288;
             imageLayer.renderAll(&imageLayer);
             Sleep(1300);
             images[5].fileName = '\0';
+
             imageLayer.renderAll(&imageLayer);
             teacher = 1;
         }
@@ -770,6 +774,7 @@ int eatRamen(struct information *data, int prepare) {
                 images[4].y = 720;
                 imageLayer.renderAll(&imageLayer);
             }
+            PlaySound("sound/noodle.wav",NULL,SND_FILENAME|SND_ASYNC);
             isHide = 0;
             count++;
             if(count == 1) {
