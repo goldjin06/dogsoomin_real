@@ -605,7 +605,7 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
         case WINDOW:
             window++;
             window %= 2;
-            if(window == 0) {
+            if(window == 1) {
                 if((*data).nowDifficulty != 0)
                     images[2].fileName = "resource/room_back/window_opened_night.bmp";
                 else
