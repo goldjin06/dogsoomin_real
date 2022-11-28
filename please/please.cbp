@@ -35,6 +35,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Linker>
+			<Add library="C:/Windows/System32/winmm.dll" />
+		</Linker>
 		<Unit filename="ImageFading.h" />
 		<Unit filename="ImageLayer.h" />
 		<Unit filename="ImageLayerImpl.h" />
