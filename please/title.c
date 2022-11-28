@@ -463,7 +463,6 @@ int maze(struct information data) {
 /***********************GAME FAIL****************************************/
 
 int gameFail() {
-    system("cls");
     initLayer();
     Image images[6] = {
         {"resource/background/start_background.bmp", 0, 0},
@@ -727,7 +726,6 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
 
 int eatRamen(struct information *data, int prepare) {
     initLayer();
-    system("cls");
     Sleep(1000);
     Image images[5] = {
         {"resource/eat_ramen/view2.bmp", 0, 0},
@@ -748,9 +746,14 @@ int eatRamen(struct information *data, int prepare) {
     while(1) {
 
         //if (teacher == 1 && (count+1)%10 == 1) // footstep
-        if (teacher == 1 && count%10 == 1) teacher = 2; // knocking
-        else if (teacher == 2) teacher = 3;
-        if (teacher == 3 && isHide == 0) gameFail(); // door open & 위웅위웅위웅윙
+        if (teacher == 1 && count%10 == 1) {
+                teacher = 2;
+                PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
+        } // knocking
+        else if (teacher == 2) {
+                teacher = 3;
+        }
+        if (teacher == 3 && isHide == 0) return gameFail(); // door open & 위웅위웅위웅윙
         if (teacher == 3) {
             images[0].fileName = "resource/room_back/view1.bmp";
             imageLayer.renderAll(&imageLayer);
@@ -761,6 +764,7 @@ int eatRamen(struct information *data, int prepare) {
         key = getch();
         switch(key) {
         case EAT:
+            PlaySound("sound/noodle.wav",NULL,SND_FILENAME|SND_ASYNC);
             isHide = 0;
             count++;
             if(count == 1) {
