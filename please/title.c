@@ -603,6 +603,7 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
             return roomFront(data, window, perfume, fan, lock);
             break;
         case WINDOW:
+            window++;
             window %= 2;
             if(window == 0) {
                 if((*data).nowDifficulty != 0)
@@ -620,7 +621,6 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
             }
             imageLayer.renderAll(&imageLayer);
             Sleep(300);
-            window++;
             break;
         case PERFUME:
             images[3].fileName = "resource/room_back/perfume_selected.bmp";
@@ -681,15 +681,15 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
         case RIGHT:
             return roomBack(data, window, perfume, fan, lock);
         case FANBUTTON:
+            fan++;
             fan %= 2;
-            if(fan == 0)
+            if(fan == 1)
                 images[2].fileName = "resource/room_front/fan_clicked.bmp";
             else
                 images[2].fileName = "resource/room_front/fan.bmp";
             PlaySound("sound/fan.wav",NULL,SND_FILENAME|SND_ASYNC);
             imageLayer.renderAll(&imageLayer);
             Sleep(300);
-            fan++;
             break;
         case PERFUME:
             images[3].fileName = "resource/room_front/perfume_selected.bmp";
@@ -701,15 +701,15 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
             perfume = 1;
             break;
         case LOCKDOOR:
+            lock++;
             lock %= 2;
-            if(lock == 0)
+            if(lock == 1)
                 images[4].fileName = "resource/room_front/lock_door.bmp";
             else
                 images[4].fileName = "resource/room_front/door_handle.bmp";
             imageLayer.renderAll(&imageLayer);
             PlaySound("sound/door_lock.wav",NULL,SND_FILENAME|SND_ASYNC);
             Sleep(300);
-            lock++;
             break;
         }
 
