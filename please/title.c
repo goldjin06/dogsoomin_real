@@ -729,7 +729,7 @@ int eatRamen(struct information *data, int prepare) {
     initLayer();
     system("cls");
     Sleep(1000);
-    Image images[5] = {
+    Image images[6] = {
         {"resource/eat_ramen/view2.bmp", 0, 0},
         {"resource/eat_ramen/hunger_gauge.bmp", 1888, 256},
         {"resource/eat_ramen/eat.bmp", 1648, 560},
@@ -737,7 +737,7 @@ int eatRamen(struct information *data, int prepare) {
         {"resource/eat_ramen/eating1.bmp", 800, 720},
     };
 
-    imageLayer.imageCount = 5;
+    imageLayer.imageCount = 6;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
     int key, select = 0, enter = 0;
@@ -751,16 +751,25 @@ int eatRamen(struct information *data, int prepare) {
         if (teacher == 1 && count%10 == 1) teacher = 2; // knocking
         else if (teacher == 2) teacher = 3;
         if (teacher == 3 && isHide == 0) gameFail(); // door open & 위웅위웅위웅윙
-        if (teacher == 3) {
-            images[0].fileName = "resource/room_back/view1.bmp";
+        if (teacher == 3 && isHide == 1) {
+            images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
+            images[5].x = 512;
+            images[5].y = 288;
+            imageLayer.renderAll(&imageLayer);
+            Sleep(1300);
+            images[5].fileName = '\0';
             imageLayer.renderAll(&imageLayer);
             teacher = 1;
         }
-        gotoxy(0,0);
-        printf("%d",teacher);
+
         key = getch();
         switch(key) {
         case EAT:
+            if(isHide >= 1){
+                images[4].x = 800;
+                images[4].y = 720;
+                imageLayer.renderAll(&imageLayer);
+            }
             isHide = 0;
             count++;
             if(count == 1) {
@@ -768,9 +777,11 @@ int eatRamen(struct information *data, int prepare) {
             }
             else if(count == 10) {// have to change number
                 images[1].fileName = "resource/eat_ramen/hunger_gauge15.bmp";
+                images[4].fileName = "resource/eat_ramen/eating2.bmp";
             }
             else if(count == 18) {
                 images[1].fileName = "resource/eat_ramen/hunger_gauge30.bmp";
+                images[4].fileName = "resource/eat_ramen/eating2.bmp";
             }
             else if(count == 30) {
                 images[1].fileName = "resource/eat_ramen/hunger_gauge45.bmp";
@@ -782,6 +793,7 @@ int eatRamen(struct information *data, int prepare) {
             }
             else if(count == 57) {
                 images[1].fileName = "resource/eat_ramen/hunger_gauge75.bmp";
+                images[4].fileName = "resource/eat_ramen/eating4.bmp";
             }
             else if(count == 75) {
                 images[1].fileName = "resource/eat_ramen/hunger_gauge90.bmp";
@@ -789,6 +801,7 @@ int eatRamen(struct information *data, int prepare) {
             }
             else if(count == 85) {
                 images[1].fileName = "resource/eat_ramen/hunger_gauge95.bmp";
+                images[4].fileName = "resource/eat_ramen/eating5.bmp";
             }
             else if(count == 100) {
                 images[1].fileName = "resource/eat_ramen/hunger_gauge100.bmp";
@@ -797,11 +810,11 @@ int eatRamen(struct information *data, int prepare) {
             imageLayer.renderAll(&imageLayer);
             break;
         case HIDE:
-            isHide = 1;
-
+            isHide++;
+            images[4].x = 2081;
+            images[4].y = 1281;
+            imageLayer.renderAll(&imageLayer);
             break;
-
-
         }
         // key : eating(with eating sound) -> hunger gaze rises, hiding, footstep sound, knocking sound
         if (count >= 100) return 2;
