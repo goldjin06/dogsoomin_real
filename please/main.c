@@ -34,6 +34,8 @@ int main()
         case 2:
             break;
         }
+
+
         int prepare = roomFront(&data,window,perfume,fan,lock);  // how much the player prepared of four(window, perfume, fan, lockdoor)
         status = eatRamen(&data, prepare);
         switch (status) {

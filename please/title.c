@@ -58,12 +58,7 @@ void showTitle() {
     int key;
     while (1) {
         key = getch();
-        //mouse_x = rec.Event.MouseEvent.dwMousePosition.X; // X    ??
-        //mouse_y = rec.Event.MouseEvent.dwMousePosition.Y; // Y    ??
-        //if (mouse_x >= 200/8 && mouse_x <= 235/8 && mouse_y >= 500/16 && mouse_y <= 535/16 && mouseOn == 0) {
         if (key == 13 && mouseOn == 1) {
-            //images[1].fileName = "resource/title/start_button.bmp";
-            //imageLayer.renderAll(&imageLayer);
             break;
         }
         if (key == 13){
@@ -73,7 +68,6 @@ void showTitle() {
             Sleep(300);
             key = 0;
         }
-        //else if (!(mouse_x >= 200/8 && mouse_x <= 235/8 && mouse_y >= 500/16 && mouse_y <= 535/16) && mouseOn == 1) {
     }
 }
 
@@ -85,7 +79,7 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0},
         {"resource/text/textarea.bmp", 150, 300}
-    }; //      u    ?        ?   ?     .
+    }; //      u    ?        ?   ?  ]   .
     imageLayer.renderAll(&imageLayer);
     int len = 0;
     char pressedKey;
@@ -644,7 +638,7 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
 int roomFront(struct information *data, int window, int perfume, int fan, int lock) {
     initLayer();
     Image images[6] = {
-        {"resource/room_front/view2.bmp", 0, 0}, //{ ?     ? ,      x  ?,      y  ?, ?       (             ?     16     ?)}
+        {"resource/room_front/view2.bmp", 0, 0},
         {"resource/room_front/right_arrow.bmp", 2032, 560},
         {"resource/room_front/fan.bmp", 912, 544},
         {"resource/room_front/perfume.bmp", 1136, 784},
@@ -673,6 +667,7 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
         key = getch();
         count = window + perfume + fan + lock;
         switch (key) {
+        case 'E':
         case ENTER:
             enter++;
             if(enter == 1)
@@ -682,6 +677,7 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
                 return 0;
             imageLayer.renderAll(&imageLayer);
             break;
+        case 'R':
         case RIGHT:
             eatRamen(data, roomBack(data, window, perfume, fan, lock), lock);
             break;
@@ -713,7 +709,7 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
                 images[4].fileName = "resource/room_front/door_handle.bmp";
             imageLayer.renderAll(&imageLayer);
             PlaySound("sound/door_lock.wav",NULL,SND_FILENAME|SND_ASYNC);
-            Sleep(300); // sound
+            Sleep(300);
             lock++;
             break;
         }
@@ -757,7 +753,7 @@ int eatRamen(struct information *data, int prepare) {
         else if (teacher == 2) {
                 teacher = 3;
         }
-        if (teacher == 3 && isHide == 0) return gameFail(); // door open & 위웅위웅위웅윙
+        if (teacher == 3 && isHide == 0) return gameFail(); // door open
         if (teacher == 3) {
             images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
             images[5].x = 512;
@@ -772,6 +768,7 @@ int eatRamen(struct information *data, int prepare) {
 
         key = getch();
         switch(key) {
+        case 'E':
         case EAT:
             if(isHide >= 1){
                 images[4].x = 800;
@@ -818,6 +815,7 @@ int eatRamen(struct information *data, int prepare) {
             }
             imageLayer.renderAll(&imageLayer);
             break;
+        case 'H':
         case HIDE:
             isHide++;
             images[4].x = 2081;
@@ -825,7 +823,6 @@ int eatRamen(struct information *data, int prepare) {
             imageLayer.renderAll(&imageLayer);
             break;
         }
-        // key : eating(with eating sound) -> hunger gaze rises, hiding, footstep sound, knocking sound
         if (count >= 100) return 2;
     }
 }
