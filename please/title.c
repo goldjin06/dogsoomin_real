@@ -58,12 +58,7 @@ void showTitle() {
     int key;
     while (1) {
         key = getch();
-        //mouse_x = rec.Event.MouseEvent.dwMousePosition.X; // X    ??
-        //mouse_y = rec.Event.MouseEvent.dwMousePosition.Y; // Y    ??
-        //if (mouse_x >= 200/8 && mouse_x <= 235/8 && mouse_y >= 500/16 && mouse_y <= 535/16 && mouseOn == 0) {
         if (key == 13 && mouseOn == 1) {
-            //images[1].fileName = "resource/title/start_button.bmp";
-            //imageLayer.renderAll(&imageLayer);
             break;
         }
         if (key == 13){
@@ -73,7 +68,6 @@ void showTitle() {
             Sleep(300);
             key = 0;
         }
-        //else if (!(mouse_x >= 200/8 && mouse_x <= 235/8 && mouse_y >= 500/16 && mouse_y <= 535/16) && mouseOn == 1) {
     }
 }
 
@@ -85,7 +79,7 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0},
         {"resource/text/textarea.bmp", 150, 300}
-    }; //      u    ?        ?   ?     .
+    }; //      u    ?        ?   ?  ]   .
     imageLayer.renderAll(&imageLayer);
     int len = 0;
     char pressedKey;
@@ -673,6 +667,7 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
         key = getch();
         count = window + perfume + fan + lock;
         switch (key) {
+        case 'E';
         case ENTER:
             enter++;
             if(enter == 1)
@@ -682,6 +677,7 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
                 return 0;
             imageLayer.renderAll(&imageLayer);
             break;
+        case ''
         case RIGHT:
             eatRamen(data, roomBack(data, window, perfume, fan, lock), lock);
             break;
@@ -763,6 +759,7 @@ int eatRamen(struct information *data, int prepare) {
         printf("%d",teacher);
         key = getch();
         switch(key) {
+        case 'E':
         case EAT:
             PlaySound("sound/noodle.wav",NULL,SND_FILENAME|SND_ASYNC);
             isHide = 0;
@@ -800,6 +797,7 @@ int eatRamen(struct information *data, int prepare) {
             }
             imageLayer.renderAll(&imageLayer);
             break;
+        case 'H'
         case HIDE:
             isHide = 1;
 
