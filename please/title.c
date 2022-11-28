@@ -375,7 +375,7 @@ int normalMaze(Image *images) {
 
             return gameFail();
         }
-        if ((Xcoord >= 53 && Xcoord <= 56 && Ycoord > 9 && Ycoord <= 21)||(Xcoord >= 121 && Xcoord <= 125 && Ycoord >= 19 && Ycoord <= 28)) {
+        if ((Xcoord >= 53 && Xcoord <= 56 && Ycoord > 9 && Ycoord <= 21)||(Xcoord >= 122 && Xcoord <= 125 && Ycoord >= 19 && Ycoord <= 28)) {
 
             return gameFail();
         }
@@ -417,7 +417,7 @@ int hardMaze(Image *images) {
 
             return gameFail();
         }
-        if ((Xcoord >= 53 && Xcoord <= 56 && Ycoord > 9 && Ycoord <= 21)||(Xcoord >= 121 && Xcoord <= 125 && Ycoord >= 19 && Ycoord <= 28)) {
+        if ((Xcoord >= 53 && Xcoord <= 56 && Ycoord > 9 && Ycoord <= 21)||(Xcoord >= 122 && Xcoord <= 125 && Ycoord >= 19 && Ycoord <= 28)) {
 
             return gameFail();
         }
