@@ -739,14 +739,18 @@ int eatRamen(struct information *data, int prepare) {
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
     int key, select = 0, enter = 0;
-    int count = 0;
+    int count = 0, domi_teacher;
     int isHide = 0;
     int teacher = 1; // 1 : not comming, 2 : knocking, 3 : coming
 
+    srand(time(NULL));
+
     while(1) {
 
+        domi_teacher = rand() % 10;
+
         //if (teacher == 1 && (count+1)%10 == 1) // footstep
-        if (teacher == 1 && count%10 == 1) {
+        if (teacher == 1 && count%10 == domi_teacher) {
                 teacher = 2;
                 PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
         } // knocking
