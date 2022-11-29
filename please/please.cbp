@@ -30,6 +30,9 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="C:/Windows/System32/gdi32.dll" />
+					<Add library="C:/Windows/System32/winmm.dll" />
+					<Add library="C:/Windows/System32/msimg32.dll" />
 				</Linker>
 			</Target>
 		</Build>
