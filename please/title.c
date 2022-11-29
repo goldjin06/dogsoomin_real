@@ -83,16 +83,16 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
     imageLayer.renderAll(&imageLayer);
     int len = 0;
     char pressedKey;
-    printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, (" ï¾Œï½¸     ï¾”ï½·    ï¾–ï½¼    (8~14        é‹•ï½¸      ï¾•ï½´ï¾ï½´ )"));
+    printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä(8~14ÀÚÀÇ ¿µ¹®¸¸ °¡´ÉÇÕ´Ï´Ù.)"));
 
     while (3) {
         //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 
         initLayer();
         imageLayer.renderAll(&imageLayer);
-        printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, (" ï¾Œï½¸     ï¾”ï½·    ï¾–ï½¼    (8~14        é‹•ï½¸      ï¾•ï½´ï¾ï½´ )"));
+        printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, ("ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä(8~14ÀÚÀÇ ¿µ¹®¸¸ °¡´ÉÇÕ´Ï´Ù.)"));
         printText(layer._consoleDC, 300, 550, 60, 0, RGB(0, 0, 255), TA_LEFT, ("%s", nn)); //    ?
-        if (len != 0) printText(layer._consoleDC, 300, 650, 60, 0, RGB(0, 0, 0), TA_LEFT, (" ï¾ï½· ï¾‡ï½¾         ï¾ï½¸       ï¾–ï½¼   "));
+        if (len != 0) printText(layer._consoleDC, 300, 650, 60, 0, RGB(0, 0, 0), TA_LEFT, ("´Ù ÀÔ·ÂÇß´Ù¸é ¿£ÅÍ¸¦ ´­·¯ÁÖ¼¼¿ä"));
 
 
         pressedKey = _getch();
@@ -112,7 +112,7 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
 
         if (len > 13) {
             //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
-            printText(layer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, ("Exceeded 14 character."));
+            printText(layer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, ("14ÀÚ ÃÊ°úÀÔ´Ï´Ù."));
             while (3) {
                 pressedKey = _getch();
                 if (pressedKey == '\b') {
@@ -148,8 +148,8 @@ void UserName(FILE *fp, char *nn) {
         newNickname(fp, nn, imageLayer);
     }
     else {
-        printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("          : 1"));
-        printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT(" ï¾’ï½·     : 2"));
+        printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("»õ·ÎÇÏ±â : 1"));
+        printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("ºÒ·¯¿À±â : 2"));
         if (getch() == '1') {//     ??                                                 .
             fp = freopen("data/user.txt","w",fp);
             fp = freopen("data/user.txt","r+",fp);
@@ -172,6 +172,7 @@ void selectGender(FILE *fp) {
     imageLayer.imageCount = 4;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
+	printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("¼ºº°À» ¼±ÅÃÇÏ¼¼¿ä"));
     int key, select = 0;
     while(1) {
         key = getch();
@@ -203,6 +204,7 @@ void selectGender(FILE *fp) {
             imageLayer.renderAll(&imageLayer);
             break;
         }
+        printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("¼ºº°À» ¼±ÅÃÇÏ¼¼¿ä"));
 
     }
 }
@@ -241,6 +243,7 @@ void selectStage(struct information *data) {
     imageLayer.imageCount = 5;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
+    printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("³­ÀÌµµ¸¦ ¼±ÅÃÇÏ¼¼¿ä"));
     int key, select = 0;
     while(1) {
         key = getch();
@@ -256,20 +259,24 @@ void selectStage(struct information *data) {
         case 0:
             images[4].x = 296-166;
             imageLayer.renderAll(&imageLayer);
+            printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("³­ÀÌµµ¸¦ ¼±ÅÃÇÏ¼¼¿ä"));
             break;
         case 1:
             images[4].x = 792-16;
             imageLayer.renderAll(&imageLayer);
+            printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("³­ÀÌµµ¸¦ ¼±ÅÃÇÏ¼¼¿ä"));
             break;
         case 2:
             images[4].x = 1288+150-16;
             imageLayer.renderAll(&imageLayer);
+            printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("³­ÀÌµµ¸¦ ¼±ÅÃÇÏ¼¼¿ä"));
             break;
         }
 
         if (key == ENTER) {
             if (images[select+1].fileName == "resource/difficulty/weekend_night_locked.bmp" ||images[select+1].fileName == "resource/difficulty/weekday_locked.bmp") {
-                printText(imageLayer._consoleDC, 600, 1000, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("                    ï¾ï½´ ."));
+                printText(imageLayer._consoleDC, 600, 1000, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("¾ÆÁ÷ ¼±ÅÃÇÒ ¼ö ¾ø½À´Ï´Ù ."));
+                printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("³­ÀÌµµ¸¦ ¼±ÅÃÇÏ¼¼¿ä"));
             }
             else {
                 (*data).nowDifficulty = select;  // 0 : easy, 1 : normal, 2 : hard
@@ -316,9 +323,6 @@ int moveCharacter(int * nowX, int *nowY, Image *images) {
             images[1].y += 16;
             *nowY += 16;
             break;
-        case ENTER:
-            return 2;
-            break;
     }
 }
 int easyMaze(Image *images) {
@@ -327,6 +331,7 @@ int easyMaze(Image *images) {
     imageLayer.images = images;
     images[7].isHide = 1;
     images[8].isHide = 1;
+	printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(255, 255, 255), TA_LEFT, TEXT("¹°À» ¶ß·¯°¡ÀÚ!"));
     imageLayer.renderAll(&imageLayer);
 
 
@@ -334,16 +339,14 @@ int easyMaze(Image *images) {
     float Xcoord, Ycoord; // now position in array
     while (1) {
 
-        int a = moveCharacter(&nowX, &nowY,images);
+        moveCharacter(&nowX, &nowY,images);
         imageLayer.renderAll(&imageLayer);
-        //gotoxy(0,0);
-        //printf("%3.1f %3.1f",(float)nowX/16, (float)nowY/32);
         Xcoord = nowX/16.0; Ycoord = nowY/32.0;
         if ((Ycoord >= 5 && Ycoord <= 7 && (Xcoord == 26||Xcoord == 103))||(Ycoord >= 26 && Ycoord <= 28 && Xcoord == 55)||(Ycoord >= 19 && Ycoord <= 21 && Xcoord == 74)) {
 
             return gameFail();
         }
-        if (a == 2 || (Xcoord>= 121 && Xcoord <= 125 && Ycoord == 9.5)) {
+        if ( (Xcoord>= 121 && Xcoord <= 125 && Ycoord == 9.5)) {
 
             return 2; // clear
         }
@@ -354,6 +357,7 @@ int normalMaze(Image *images) {
     initLayer();
     imageLayer.imageCount = 10;
     imageLayer.images = images;
+    printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(255, 255, 255), TA_LEFT, TEXT("¹°À» ¶ß·¯°¡ÀÚ!"));
     imageLayer.renderAll(&imageLayer);
 
     int key, nowX = 0, nowY = 192; // now position in pixel
@@ -362,8 +366,6 @@ int normalMaze(Image *images) {
 
         moveCharacter(&nowX, &nowY,images);
         imageLayer.renderAll(&imageLayer);
-        gotoxy(0,0);
-        printf("%3.1f %3.1f",(float)nowX/16, (float)nowY/32);
         Xcoord = nowX/16.0; Ycoord = nowY/32.0;
         if ((Ycoord >= 5 && Ycoord <= 7 && (Xcoord == 26||Xcoord == 103))||(Ycoord >= 26 && Ycoord <= 28 && Xcoord == 55)||(Ycoord >= 19 && Ycoord <= 21 && Xcoord == 74)) {
 
@@ -384,15 +386,12 @@ int hardMaze(Image *images) {
     initLayer();
     imageLayer.imageCount = 10;
     imageLayer.images = images;
+    printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(255, 255, 255), TA_LEFT, TEXT("¹°À» ¶ß·¯°¡ÀÚ!"));
     imageLayer.renderAll(&imageLayer);
 
     int key, nowX = 0, nowY = 192, hardset = (rand()%10)*2+20, hard = 0; // now position in pixel
     float Xcoord, Ycoord; // now position in array
     while (1) {
-
-
-        gotoxy(0,0);
-        printf("%2d %2d",hard,hardset);
 
         if (hard == 0) {
             for (int i = 0;  i < 9; i++) {if(i != 1)images[i].isHide = 1;}
@@ -511,14 +510,15 @@ int gameClear(FILE *fp, struct information data) {
     if (data.difficultyInformation == 'e') fprintf_s(fp, "n");
     else if (data.difficultyInformation == 'n' && data.nowDifficulty == 1) fprintf_s(fp,"h");
     initLayer();
-    Image images[5] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ ?     ? ,      x  ?,      y  ?, ?       (             ?     16     ?)}
+    Image images[6] = {
+        {"resource/background/start_background.bmp", 0, 0}, //{ ?     ? ,      x  ?,      y  ?, ?
         {"resource/clear/quit_button.bmp",1400,500},
         {"resource/clear/quit_button_clicked.bmp",1400,500},
         {"resource/clear/restart_button.bmp",1400,800},
-        {"resource/clear/restart_button_clicked.bmp",1400,800}
+        {"resource/clear/restart_button_clicked.bmp",1400,800},
+        {"resource/jmt.bmp",300,300,3},
     }; //      u    ?        ?   ?     .
-    imageLayer.imageCount = 5;
+    imageLayer.imageCount = 6;
     imageLayer.images = images;
     int key, select = 0;
     images[2].isHide = 0;
@@ -736,15 +736,18 @@ int eatRamen(struct information *data, int prepare) {
 int easyEatRamen(struct information *data, int prepare) {
     initLayer();
     Sleep(1000);
-    Image images[6] = {
+    Image images[7] = {
         {"resource/eat_ramen/view2.bmp", 0, 0},
         {"resource/eat_ramen/hunger_gauge.bmp", 1888, 256},
         {"resource/eat_ramen/eat.bmp", 1648, 560},
         {"resource/eat_ramen/hide.bmp", 1648, 800},
         {"resource/eat_ramen/eating1.bmp", 800, 720},
+        {},
+        {"resource/eat_ramen/knock.bmp",785,140,8}
     };
+    images[6].isHide = 1;
 
-    imageLayer.imageCount = 6;
+    imageLayer.imageCount = 7;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
     int key, select = 0, enter = 0;
@@ -755,7 +758,7 @@ int easyEatRamen(struct information *data, int prepare) {
     srand(time(NULL));
     if(prepare == 0){
         PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
-        Sleep(1500);
+        Sleep(700);
         images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
         images[5].x = 512;
         images[5].y = 288;
@@ -766,12 +769,15 @@ int easyEatRamen(struct information *data, int prepare) {
 
     while(1) {
 
+
         domi_teacher = rand() % 10;
 
         //if (teacher == 1 && (count+1)%10 == 1) // footstep
         if (teacher == 1 && count%10 == domi_teacher) {
                 teacher = 2;
                 PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
+                images[6].isHide = 0;
+                imageLayer.renderAll(&imageLayer);
         } // knocking
         else if (teacher == 2) {
                 teacher = 3;
@@ -779,6 +785,7 @@ int easyEatRamen(struct information *data, int prepare) {
         if (teacher == 3 && isHide == 0) return gameFail(); // door open
         if (teacher == 3) {
             images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
+            images[6].isHide = 1;
             images[5].x = 512;
             images[5].y = 288;
             imageLayer.renderAll(&imageLayer);
@@ -853,15 +860,18 @@ int easyEatRamen(struct information *data, int prepare) {
 int normalEatRamen(struct information *data, int prepare) {
     initLayer();
     Sleep(1000);
-    Image images[6] = {
+    Image images[7] = {
         {"resource/eat_ramen/view2.bmp", 0, 0},
         {"resource/eat_ramen/hunger_gauge.bmp", 1888, 256},
         {"resource/eat_ramen/eat.bmp", 1648, 560},
         {"resource/eat_ramen/hide.bmp", 1648, 800},
         {"resource/eat_ramen/eating1.bmp", 800, 720},
+        {},
+        {"resource/eat_ramen/knock.bmp",785,140,8}
     };
+    images[6].isHide = 1;
 
-    imageLayer.imageCount = 6;
+    imageLayer.imageCount = 7;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
     int key, select = 0, enter = 0;
@@ -872,7 +882,7 @@ int normalEatRamen(struct information *data, int prepare) {
     srand(time(NULL));
     if(prepare < 2){
         PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
-        Sleep(1500);
+        Sleep(700);
         images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
         images[5].x = 512;
         images[5].y = 288;
@@ -889,15 +899,19 @@ int normalEatRamen(struct information *data, int prepare) {
         if (teacher == 1 && count%8 == domi_teacher) {
                 teacher = 2;
                 PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
+                images[6].isHide = 0;
+                imageLayer.renderAll(&imageLayer);
         } // knocking
         else if (teacher == 2) {
                 teacher = 3;
+
         }
         if (teacher == 3 && isHide == 0) return gameFail(); // door open
         if (teacher == 3) {
             images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
             images[5].x = 512;
             images[5].y = 288;
+            images[6].isHide = 1;
             imageLayer.renderAll(&imageLayer);
             Sleep(1300);
             images[5].fileName = '\0';
@@ -970,15 +984,18 @@ int normalEatRamen(struct information *data, int prepare) {
 int hardEatRamen(struct information *data, int prepare) {
     initLayer();
     Sleep(1000);
-    Image images[6] = {
+    Image images[7] = {
         {"resource/eat_ramen/view2.bmp", 0, 0},
         {"resource/eat_ramen/hunger_gauge.bmp", 1888, 256},
         {"resource/eat_ramen/eat.bmp", 1648, 560},
         {"resource/eat_ramen/hide.bmp", 1648, 800},
         {"resource/eat_ramen/eating1.bmp", 800, 720},
+        {},
+        {"resource/eat_ramen/knock.bmp",785,140,8}
     };
+    images[6].isHide = 1;
 
-    imageLayer.imageCount = 6;
+    imageLayer.imageCount = 7;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
     int key, select = 0, enter = 0;
@@ -989,7 +1006,7 @@ int hardEatRamen(struct information *data, int prepare) {
     srand(time(NULL));
     if(prepare < 4){
         PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
-        Sleep(1500);
+        Sleep(700);
         images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
         images[5].x = 512;
         images[5].y = 288;
@@ -1006,15 +1023,19 @@ int hardEatRamen(struct information *data, int prepare) {
         if (teacher == 1 && count%5 == domi_teacher) {
                 teacher = 2;
                 PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
+                images[6].isHide = 0;
+                imageLayer.renderAll(&imageLayer);
         } // knocking
         else if (teacher == 2) {
                 teacher = 3;
+
         }
         if (teacher == 3 && isHide == 0) return gameFail(); // door open
         if (teacher == 3) {
             images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
             images[5].x = 512;
             images[5].y = 288;
+            images[6].isHide = 1;
             imageLayer.renderAll(&imageLayer);
             Sleep(1300);
             images[5].fileName = '\0';
