@@ -718,54 +718,20 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
 
 
 /************************** EAT ****************************/
-void changeGage(int count, Image *images[]) {
-    switch(count) {
-        case 1:
-        images[4].fileName = "resource/eat_ramen/eating2.bmp";
-        break;
 
-        case 15:// have to change number
-        images[1].fileName = "resource/eat_ramen/hunger_gauge15.bmp";
-        images[4].fileName = "resource/eat_ramen/eating2.bmp";
-        break;
+int eatRamen(struct information *data, int prepare) {
 
-        case 30:
-        images[1].fileName = "resource/eat_ramen/hunger_gauge30.bmp";
-        images[4].fileName = "resource/eat_ramen/eating2.bmp";
-        break;
+    int status = 0;
 
-        case 45:
-        images[1].fileName = "resource/eat_ramen/hunger_gauge45.bmp";
-        images[4].fileName = "resource/eat_ramen/eating3.bmp";
-        break;
+    if((*data).nowDifficulty == 0)
+        status = easyEatRamen(&data, prepare);
+    else if((*data).nowDifficulty == 1)
+        status = normalEatRamen(&data, prepare);
+    else if((*data).nowDifficulty == 2)
+        status = hardEatRamen(&data, prepare);
 
-        case 60:
-        images[1].fileName = "resource/eat_ramen/hunger_gauge60.bmp";
-        images[4].fileName = "resource/eat_ramen/eating4.bmp";
-        break;
-
-        case 75:
-        images[1].fileName = "resource/eat_ramen/hunger_gauge75.bmp";
-        images[4].fileName = "resource/eat_ramen/eating4.bmp";
-        break;
-
-        case 90:
-        images[1].fileName = "resource/eat_ramen/hunger_gauge90.bmp";
-        images[4].fileName = "resource/eat_ramen/eating5.bmp";
-        break;
-
-        case 95:
-        images[1].fileName = "resource/eat_ramen/hunger_gauge95.bmp";
-        images[4].fileName = "resource/eat_ramen/eating5.bmp";
-        break;
-
-        case 100:
-        images[1].fileName = "resource/eat_ramen/hunger_gauge100.bmp";
-        images[4].fileName = "resource/eat_ramen/eating6.bmp";
-        break;
-    }
+    return status;
 }
-
 
 int easyEatRamen(struct information *data, int prepare) {
     initLayer();
@@ -835,7 +801,41 @@ int easyEatRamen(struct information *data, int prepare) {
             PlaySound("sound/noodle.wav",NULL,SND_FILENAME|SND_ASYNC);
             isHide = 0;
             count++;
-            changeGage(count, images);
+            if(count == 1) {
+                images[4].fileName = "resource/eat_ramen/eating2.bmp";
+            }
+            else if(count == 5) {// have to change number
+                images[1].fileName = "resource/eat_ramen/hunger_gauge15.bmp";
+                images[4].fileName = "resource/eat_ramen/eating2.bmp";
+            }
+            else if(count == 11) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge30.bmp";
+                images[4].fileName = "resource/eat_ramen/eating2.bmp";
+            }
+            else if(count == 18) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge45.bmp";
+                images[4].fileName = "resource/eat_ramen/eating3.bmp";
+            }
+            else if(count == 25) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge60.bmp";
+                images[4].fileName = "resource/eat_ramen/eating4.bmp";
+            }
+            else if(count == 35) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge75.bmp";
+                images[4].fileName = "resource/eat_ramen/eating4.bmp";
+            }
+            else if(count == 48) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge90.bmp";
+                images[4].fileName = "resource/eat_ramen/eating5.bmp";
+            }
+            else if(count == 60) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge95.bmp";
+                images[4].fileName = "resource/eat_ramen/eating5.bmp";
+            }
+            else if(count == 68) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge100.bmp";
+                images[4].fileName = "resource/eat_ramen/eating6.bmp";
+            }
             imageLayer.renderAll(&imageLayer);
             break;
         case 'H':
@@ -918,7 +918,41 @@ int normalEatRamen(struct information *data, int prepare) {
             PlaySound("sound/noodle.wav",NULL,SND_FILENAME|SND_ASYNC);
             isHide = 0;
             count++;
-            changeGage(count, images);
+            if(count == 1) {
+                images[4].fileName = "resource/eat_ramen/eating2.bmp";
+            }
+            else if(count == 8) {// have to change number
+                images[1].fileName = "resource/eat_ramen/hunger_gauge15.bmp";
+                images[4].fileName = "resource/eat_ramen/eating2.bmp";
+            }
+            else if(count == 15) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge30.bmp";
+                images[4].fileName = "resource/eat_ramen/eating2.bmp";
+            }
+            else if(count == 23) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge45.bmp";
+                images[4].fileName = "resource/eat_ramen/eating3.bmp";
+            }
+            else if(count == 30) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge60.bmp";
+                images[4].fileName = "resource/eat_ramen/eating4.bmp";
+            }
+            else if(count == 47) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge75.bmp";
+                images[4].fileName = "resource/eat_ramen/eating4.bmp";
+            }
+            else if(count == 60) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge90.bmp";
+                images[4].fileName = "resource/eat_ramen/eating5.bmp";
+            }
+            else if(count == 73) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge95.bmp";
+                images[4].fileName = "resource/eat_ramen/eating5.bmp";
+            }
+            else if(count == 80) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge100.bmp";
+                images[4].fileName = "resource/eat_ramen/eating6.bmp";
+            }
             imageLayer.renderAll(&imageLayer);
             break;
         case 'H':
@@ -996,12 +1030,46 @@ int hardEatRamen(struct information *data, int prepare) {
             if(isHide >= 1){
                 images[4].x = 800;
                 images[4].y = 720;
-                imageLayer.renderAll(&imageLayer); // unhide
+                imageLayer.renderAll(&imageLayer);
             }
             PlaySound("sound/noodle.wav",NULL,SND_FILENAME|SND_ASYNC);
             isHide = 0;
             count++;
-            changeGage(count, images);
+            if(count == 1) {
+                images[4].fileName = "resource/eat_ramen/eating2.bmp";
+            }
+            else if(count == 15) {// have to change number
+                images[1].fileName = "resource/eat_ramen/hunger_gauge15.bmp";
+                images[4].fileName = "resource/eat_ramen/eating2.bmp";
+            }
+            else if(count == 30) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge30.bmp";
+                images[4].fileName = "resource/eat_ramen/eating2.bmp";
+            }
+            else if(count == 45) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge45.bmp";
+                images[4].fileName = "resource/eat_ramen/eating3.bmp";
+            }
+            else if(count == 60) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge60.bmp";
+                images[4].fileName = "resource/eat_ramen/eating4.bmp";
+            }
+            else if(count == 75) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge75.bmp";
+                images[4].fileName = "resource/eat_ramen/eating4.bmp";
+            }
+            else if(count == 88) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge90.bmp";
+                images[4].fileName = "resource/eat_ramen/eating5.bmp";
+            }
+            else if(count == 95) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge95.bmp";
+                images[4].fileName = "resource/eat_ramen/eating5.bmp";
+            }
+            else if(count == 100) {
+                images[1].fileName = "resource/eat_ramen/hunger_gauge100.bmp";
+                images[4].fileName = "resource/eat_ramen/eating6.bmp";
+            }
             imageLayer.renderAll(&imageLayer);
             break;
         case 'H':
@@ -1012,18 +1080,6 @@ int hardEatRamen(struct information *data, int prepare) {
             imageLayer.renderAll(&imageLayer);
             break;
         }
-        if (count >= 100) return 2; // clear
-    }
-}
-
-int eatRamen(struct information *data, int prepare) {
-
-    switch((*data).nowDifficulty) {
-    case 0:
-        return easyEatRamen(&data, prepare);
-    case 1:
-        return normalEatRamen(&data, prepare);
-    case 2:
-        return hardEatRamen(&data, prepare);
+        if (count >= 100) return 2;
     }
 }
