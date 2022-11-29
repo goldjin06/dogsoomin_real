@@ -718,7 +718,7 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
 
 
 /************************** EAT ****************************/
-void changeGage(int count, Image *images[]) {
+void changeGage(int count, Image images[]) {
     switch(count) {
         case 1:
         images[4].fileName = "resource/eat_ramen/eating2.bmp";
