@@ -946,7 +946,7 @@ int normalEatRamen(struct information *data, int prepare) { // page of eating ra
     imageLayer.renderAll(&imageLayer);
     int key;
     int count = 0, domi_teacher;
-    int isHide = 0;
+    int isHide = 0; // 1 : hid the ramen, 0 : didn't
     int teacher = 1; // 1 : not comming, 2 : knocking, 3 : coming
 
     srand(time(NULL));
@@ -1054,7 +1054,7 @@ int normalEatRamen(struct information *data, int prepare) { // page of eating ra
 * @return 0 : quit, 1 : retry, 2 : stage clear
 * @param data : user information, prepare : to check how much player setted(At least four must be done)
 */
-int hardEatRamen(struct information *data, int prepare) { // page of eating ramen in hard mode
+int hardEatRamen(struct information *data, int prepare) {
     initLayer();
     Sleep(1000);
     Image images[7] = {
@@ -1073,7 +1073,7 @@ int hardEatRamen(struct information *data, int prepare) { // page of eating rame
     imageLayer.renderAll(&imageLayer);
     int key;
     int count = 0, domi_teacher;
-    int isHide = 0;
+    int isHide = 0; // 1 : hid the ramen, 0 : didn't
     int teacher = 1; // 1 : not comming, 2 : knocking, 3 : coming
 
     srand(time(NULL));

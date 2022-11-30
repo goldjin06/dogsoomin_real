@@ -12,7 +12,7 @@ void ClearCursor() // Ŀ
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE),&c);
 }
 
-/** @brief page of selecting character's gender
+/** @brief change console size
 * @return none
 * @param none
 */
@@ -23,11 +23,11 @@ void ResizeConsole() //  ܼ  ũ
     system(temp);
 }
 
-/** @brief page of selecting character's gender
+/** @brief move x,y coordinate
 * @return none
-* @param x : , y :
+* @param x : x-coordinate, y : y-coordinate
 */
-void gotoxy(int x, int y) // xy   ǥ  ̵
+void gotoxy(int x, int y)
 {
     COORD pos = {x,y};
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),pos);
