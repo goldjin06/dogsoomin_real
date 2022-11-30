@@ -41,6 +41,11 @@ void initLayer() {
 }
 
 /******************* TITLE *************************/
+
+/** @brief start page
+* @return none
+* @param none
+*/
 void showTitle() {
     Sleep(500);
 
@@ -127,6 +132,7 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
 
     }
 }
+
 
 void UserName(FILE *fp, char *nn) {
     initLayer();
