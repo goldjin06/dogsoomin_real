@@ -156,15 +156,15 @@ void UserName(FILE *fp, char *nn) {
 
     char ch;
     int cnt = 0;
-    while (fscanf(fp, "%c", &ch) != EOF) cnt++; // check if there is data for load
-    if (cnt == 0) {
+    while (fscanf(fp, "%c", &ch) != EOF) cnt++; // check if there is data for load (cnt : length of character in data file)
+    if (cnt == 0) { // if there is nothing on data file
         newNickname(fp, nn, imageLayer);
     }
     else {
         printText(imageLayer._consoleDC, 300, 500, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("     ϱ  : 1"));
         printText(imageLayer._consoleDC, 300, 600, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT(" ҷ      : 2"));
         if (getch() == '1') {//     ??                                                 .
-            fp = freopen("data/user.txt","w",fp);
+            fp = freopen("data/user.txt","w",fp); // delete all data
             fp = freopen("data/user.txt","r+",fp);
             newNickname(fp, nn, imageLayer);
         }
@@ -235,10 +235,10 @@ void selectGender(FILE *fp) {
 
 
 void readData(FILE *fp, struct information *data) {
-    fseek(fp,0,SEEK_SET);
-    fscanf(fp,"%s\n",(*data).name);
-    fscanf(fp,"%c\n",&(*data).gender);
-    fseek(fp,-1,SEEK_END);
+    fseek(fp,0,SEEK_SET); // go to first line
+    fscanf(fp,"%s\n",(*data).name); // first line -> name
+    fscanf(fp,"%c\n",&(*data).gender); // second line -> gender (m / f)
+    fseek(fp,-1,SEEK_END); // last character -> highest level the user ever clear
     fscanf(fp,"%c", &(*data).difficultyInformation);
     fseek(fp,0,SEEK_END);
 }
@@ -258,7 +258,7 @@ void selectStage(struct information *data) {
         {"resource/difficulty/weekday.bmp", 1288+150, 290+100},
         {"resource/difficulty/selected.bmp", 296-166, 290-16+100}
     };
-    switch((*data).difficultyInformation) { //
+    switch((*data).difficultyInformation) { // lock the level which user can't play yet
     case 'e':
         images[2].fileName = "resource/difficulty/weekend_night_locked.bmp";
     case 'n':
@@ -272,7 +272,7 @@ void selectStage(struct information *data) {
     imageLayer.renderAll(&imageLayer);
     printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("   ̵         ϼ   "));
     int key, select = 0;
-    while(1) {
+    while(1) { // move selecter by left key and right key
         key = getch();
         if (key == RIGHT) {
             select++;
@@ -306,7 +306,7 @@ void selectStage(struct information *data) {
                 printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("   ̵         ϼ   "));
             }
             else {
-                (*data).nowDifficulty = select;  // 0 : easy, 1 : normal, 2 : hard
+                (*data).nowDifficulty = select;  // nowdifficculty : the level which user is going to play now / 0 : easy, 1 : normal, 2 : hard
                 break;
             }
         }
