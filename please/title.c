@@ -193,13 +193,13 @@ void selectGender(FILE *fp) {
 	printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("            ϼ   "));
     int key, select = 0;
     while(1) {
-        key = getch();
+        key = getch(); // move selecter by left key and right key
         if (key == RIGHT || key == LEFT) {
             select++;
             select %= 2;
         }
         else if(key == 13) {
-            switch(select) {
+            switch(select) { // ENTER -> select and write gender information in "data.txt"
             case 0:
                 fprintf(fp, "f\ne");
                 break;
@@ -211,7 +211,7 @@ void selectGender(FILE *fp) {
         }
 
         switch (select) {
-        case 0:
+        case 0: // move selecter
             images[3].x = 640;
             images[3].fileName = "resource/gender/character_girl_selected.bmp";
             imageLayer.renderAll(&imageLayer);
@@ -283,7 +283,7 @@ void selectStage(struct information *data) {
         select %= 3;
 
         switch (select) {
-        case 0:
+        case 0: // move selector
             images[4].x = 296-166;
             imageLayer.renderAll(&imageLayer);
             printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, TEXT("   ̵         ϼ   "));
@@ -334,7 +334,7 @@ int moveCharacter(int * nowX, int *nowY, Image *images) {
     int key = getch();
 
     switch (key){
-        case LEFT:
+        case LEFT: // if there is no wall, change position
             if (mazefield[*nowY/32][(*nowX-16)/16]<0 || mazefield[*nowY/32+1][(*nowX-16)/16]<0 || mazefield[*nowY/32+2][(*nowX-16)/16]<0 || mazefield[(*nowY+80)/32][(*nowX-16)/16]<0 || mazefield[*nowY/32][(*nowX-16)/16] == 'x' || mazefield[*nowY/32+1][(*nowX-16)/16] == 'x' || mazefield[*nowY/32+2][(*nowX-16)/16] == 'x'|| mazefield[(*nowY+80)/32][(*nowX-16)/16] == 'x') break;
             images[1].x -= 16;
             *nowX -= 16;
@@ -365,7 +365,7 @@ int easyMaze(Image *images) {
     initLayer();
     imageLayer.imageCount = 10;
     imageLayer.images = images;
-    images[7].isHide = 1;
+    images[7].isHide = 1; // hide second grade (blue necktie)
     images[8].isHide = 1;
 	printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(255, 255, 255), TA_LEFT, TEXT("      ߷     !"));
     imageLayer.renderAll(&imageLayer);
@@ -380,11 +380,11 @@ int easyMaze(Image *images) {
         Xcoord = nowX/16.0; Ycoord = nowY/32.0;
         if ((Ycoord >= 5 && Ycoord <= 7 && (Xcoord == 26||Xcoord == 103))||(Ycoord >= 26 && Ycoord <= 28 && Xcoord == 55)||(Ycoord >= 19 && Ycoord <= 21 && Xcoord == 74)) {
 
-            return gameFail();
+            return gameFail(); //fail if the bottle reach to cap, glasses
         }
         if ( (Xcoord>= 121 && Xcoord <= 125 && Ycoord == 9.5)) {
 
-            return 2; // clear
+            return 2; // clear if the bottle reach to water purifier
         }
     }
 
@@ -394,7 +394,7 @@ int easyMaze(Image *images) {
 *  @param image pointer for control image
 *  @return 0 - gamefail and exit / 1 - gamefail and replay / 2 - maze clear
 */
-int normalMaze(Image *images) {
+int normalMaze(Image *images) { // almost same with easyMaze
     initLayer();
     imageLayer.imageCount = 10;
     imageLayer.images = images;
@@ -428,14 +428,15 @@ int normalMaze(Image *images) {
 *  @param image pointer for control image
 *  @return 0 - gamefail and exit / 1 - gamefail and replay / 2 - maze clear
 */
-int hardMaze(Image *images) {
+int hardMaze(Image *images) {  // almost same with easyMaze
     initLayer();
     imageLayer.imageCount = 10;
     imageLayer.images = images;
     printText(imageLayer._consoleDC, 300, 100, 60, 0, RGB(255, 255, 255), TA_LEFT, TEXT("      ߷     !"));
     imageLayer.renderAll(&imageLayer);
 
-    int key, nowX = 0, nowY = 192, hardset = (rand()%10)*2+20, hard = 0; // now position in pixel
+    int key, nowX = 0, nowY = 192; // now position in pixel
+    int hardset = (rand()%10)*2+20 , hard = 0; // hardset => random light on
     float Xcoord, Ycoord; // now position in array
     while (1) {
 
@@ -498,14 +499,16 @@ int maze(struct information data) {
         return hardMaze(images);
         break;
     }
-    return 2;
 }
 
 
 
 
 /***********************GAME FAIL****************************************/
-
+/** @brief when the user fail to clear, select if the user play again or quit
+*  @param none
+*  @return 0 - exit / 1 - replay
+*/
 int gameFail() {
     initLayer();
     Image images[6] = {
@@ -515,7 +518,7 @@ int gameFail() {
         {"resource/clear/restart_button.bmp",1400,800},
         {"resource/clear/restart_button_clicked.bmp",1400,800},
         {"resource/fail/report.bmp",160,50}
-    }; //      u    ?        ?   ?     .
+    };
     imageLayer.imageCount = 6;
     imageLayer.images = images;
     int key, select = 0;
@@ -524,11 +527,11 @@ int gameFail() {
     imageLayer.renderAll(&imageLayer);
     while(1) {
 
-        if (key == RIGHT || key == LEFT) {
+        if (key == RIGHT || key == LEFT) { // change clicked button by right key and left key
             select++;
             select %= 2;
         }
-        else if(key == 13) {
+        else if(key == 13) { // press enter to select
             return select;
             break;
         }
@@ -557,12 +560,16 @@ int gameFail() {
 
 
 /********************** CLEAR *****************************/
-int gameClear(FILE *fp, struct information data) {
+/** @brief when the user clear the game, select if the user play again or quit
+*  @param none
+*  @return 0 - exit / 1 - replay
+*/
+int gameClear(FILE *fp, struct information data) { // almost same with gameFail
     if (data.difficultyInformation == 'e') fprintf_s(fp, "n");
     else if (data.difficultyInformation == 'n' && data.nowDifficulty == 1) fprintf_s(fp,"h");
     initLayer();
     Image images[6] = {
-        {"resource/background/start_background.bmp", 0, 0}, //{ ?     ? ,      x  ?,      y  ?, ?
+        {"resource/background/start_background.bmp", 0, 0},
         {"resource/clear/quit_button.bmp",1400,500},
         {"resource/clear/quit_button_clicked.bmp",1400,500},
         {"resource/clear/restart_button.bmp",1400,800},
