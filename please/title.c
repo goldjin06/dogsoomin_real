@@ -502,118 +502,6 @@ int maze(struct information data) {
 }
 
 
-
-
-/***********************GAME FAIL****************************************/
-/** @brief when the user fail to clear, select if the user play again or quit
-*  @param none
-*  @return 0 - exit / 1 - replay
-*/
-int gameFail() {
-    initLayer();
-    Image images[6] = {
-        {"resource/background/start_background.bmp", 0, 0},
-        {"resource/clear/quit_button.bmp",1400,500},
-        {"resource/clear/quit_button_clicked.bmp",1400,500},
-        {"resource/clear/restart_button.bmp",1400,800},
-        {"resource/clear/restart_button_clicked.bmp",1400,800},
-        {"resource/fail/report.bmp",160,50}
-    };
-    imageLayer.imageCount = 6;
-    imageLayer.images = images;
-    int key, select = 0;
-    images[2].isHide = 0;
-    images[4].isHide = 1;
-    imageLayer.renderAll(&imageLayer);
-    while(1) {
-
-        if (key == RIGHT || key == LEFT) { // change clicked button by right key and left key
-            select++;
-            select %= 2;
-        }
-        else if(key == 13) { // press enter to select
-            return select;
-            break;
-        }
-
-        switch (select) {
-        case 0:
-            images[1].isHide = 1;
-            images[2].isHide = 0;
-            images[3].isHide = 0;
-            images[4].isHide = 1;
-            imageLayer.renderAll(&imageLayer);
-            break;
-        case 1:
-            images[1].isHide = 0;
-            images[2].isHide = 1;
-            images[3].isHide = 1;
-            images[4].isHide = 0;
-            imageLayer.renderAll(&imageLayer);
-            break;
-        }
-        key = getch();
-
-    }
-}
-
-
-
-/********************** CLEAR *****************************/
-/** @brief when the user clear the game, select if the user play again or quit
-*  @param none
-*  @return 0 - exit / 1 - replay
-*/
-int gameClear(FILE *fp, struct information data) { // almost same with gameFail
-    if (data.difficultyInformation == 'e') fprintf_s(fp, "n");
-    else if (data.difficultyInformation == 'n' && data.nowDifficulty == 1) fprintf_s(fp,"h");
-    initLayer();
-    Image images[6] = {
-        {"resource/background/start_background.bmp", 0, 0},
-        {"resource/clear/quit_button.bmp",1400,500},
-        {"resource/clear/quit_button_clicked.bmp",1400,500},
-        {"resource/clear/restart_button.bmp",1400,800},
-        {"resource/clear/restart_button_clicked.bmp",1400,800},
-        {"resource/jmt.bmp",300,300,3},
-    }; //      u    ?        ?   ?     .
-    imageLayer.imageCount = 6;
-    imageLayer.images = images;
-    int key, select = 0;
-    images[2].isHide = 0;
-    images[4].isHide = 1;
-    imageLayer.renderAll(&imageLayer);
-    while(1) {
-
-        if (key == RIGHT || key == LEFT) {
-            select++;
-            select %= 2;
-        }
-        else if(key == 13) {
-            return select;
-            break;
-        }
-
-        switch (select) {
-        case 0:
-            images[1].isHide = 1;
-            images[2].isHide = 0;
-            images[3].isHide = 0;
-            images[4].isHide = 1;
-            imageLayer.renderAll(&imageLayer);
-            break;
-        case 1:
-            images[1].isHide = 0;
-            images[2].isHide = 1;
-            images[3].isHide = 1;
-            images[4].isHide = 0;
-            imageLayer.renderAll(&imageLayer);
-            break;
-        }
-        key = getch();
-
-    }
-}
-
 /********************** BEFORE EATING *********************/
 
 /** @brief page of setting(preparing) for eating ramen - back part of room
@@ -1181,5 +1069,114 @@ int hardEatRamen(struct information *data, int prepare) {
             break;
         }
         if (count >= 100) return 2;
+    }
+}
+
+/***********************GAME FAIL****************************************/
+/** @brief when the user fail to clear, select if the user play again or quit
+*  @param none
+*  @return 0 - exit / 1 - replay
+*/
+int gameFail() {
+    initLayer();
+    Image images[6] = {
+        {"resource/background/start_background.bmp", 0, 0},
+        {"resource/clear/quit_button.bmp",1400,500},
+        {"resource/clear/quit_button_clicked.bmp",1400,500},
+        {"resource/clear/restart_button.bmp",1400,800},
+        {"resource/clear/restart_button_clicked.bmp",1400,800},
+        {"resource/fail/report.bmp",160,50}
+    };
+    imageLayer.imageCount = 6;
+    imageLayer.images = images;
+    int key, select = 0;
+    images[2].isHide = 0;
+    images[4].isHide = 1;
+    imageLayer.renderAll(&imageLayer);
+    while(1) {
+
+        if (key == RIGHT || key == LEFT) { // change clicked button by right key and left key
+            select++;
+            select %= 2;
+        }
+        else if(key == 13) { // press enter to select
+            return select;
+            break;
+        }
+
+        switch (select) {
+        case 0:
+            images[1].isHide = 1;
+            images[2].isHide = 0;
+            images[3].isHide = 0;
+            images[4].isHide = 1;
+            imageLayer.renderAll(&imageLayer);
+            break;
+        case 1:
+            images[1].isHide = 0;
+            images[2].isHide = 1;
+            images[3].isHide = 1;
+            images[4].isHide = 0;
+            imageLayer.renderAll(&imageLayer);
+            break;
+        }
+        key = getch();
+
+    }
+}
+
+
+/********************** CLEAR *****************************/
+/** @brief when the user clear the game, select if the user play again or quit
+*  @param none
+*  @return 0 - exit / 1 - replay
+*/
+int gameClear(FILE *fp, struct information data) { // almost same with gameFail
+    if (data.difficultyInformation == 'e') fprintf_s(fp, "n");
+    else if (data.difficultyInformation == 'n' && data.nowDifficulty == 1) fprintf_s(fp,"h");
+    initLayer();
+    Image images[6] = {
+        {"resource/background/start_background.bmp", 0, 0},
+        {"resource/clear/quit_button.bmp",1400,500},
+        {"resource/clear/quit_button_clicked.bmp",1400,500},
+        {"resource/clear/restart_button.bmp",1400,800},
+        {"resource/clear/restart_button_clicked.bmp",1400,800},
+        {"resource/jmt.bmp",300,300,3},
+    }; //      u    ?        ?   ?     .
+    imageLayer.imageCount = 6;
+    imageLayer.images = images;
+    int key, select = 0;
+    images[2].isHide = 0;
+    images[4].isHide = 1;
+    imageLayer.renderAll(&imageLayer);
+    while(1) {
+
+        if (key == RIGHT || key == LEFT) {
+            select++;
+            select %= 2;
+        }
+        else if(key == 13) {
+            return select;
+            break;
+        }
+
+        switch (select) {
+        case 0:
+            images[1].isHide = 1;
+            images[2].isHide = 0;
+            images[3].isHide = 0;
+            images[4].isHide = 1;
+            imageLayer.renderAll(&imageLayer);
+            break;
+        case 1:
+            images[1].isHide = 0;
+            images[2].isHide = 1;
+            images[3].isHide = 1;
+            images[4].isHide = 0;
+            imageLayer.renderAll(&imageLayer);
+            break;
+        }
+        key = getch();
+
     }
 }
