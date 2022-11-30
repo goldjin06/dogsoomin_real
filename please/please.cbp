@@ -55,9 +55,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="mazefield.h" />
-		<Unit filename="name.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="name.h" />
 		<Unit filename="title.c">
 			<Option compilerVar="CC" />
