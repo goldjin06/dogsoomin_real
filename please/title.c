@@ -222,6 +222,11 @@ void selectGender(FILE *fp) {
 
 
 /********************** READDATA (in file)  ******************************/
+/** @brief read name,gender,difficulty data in "data.txt"
+*  @param file pointer, struct information for submit
+*/
+
+
 void readData(FILE *fp, struct information *data) {
     fseek(fp,0,SEEK_SET);
     fscanf(fp,"%s\n",(*data).name);
@@ -232,6 +237,10 @@ void readData(FILE *fp, struct information *data) {
 }
 
 /********************* SELECT STAGE *********************************/
+/** @brief page : selecting stage
+*  @param struct information for load data
+*/
+
 
 void selectStage(struct information *data) {
     initLayer();
@@ -242,7 +251,7 @@ void selectStage(struct information *data) {
         {"resource/difficulty/weekday.bmp", 1288+150, 290+100},
         {"resource/difficulty/selected.bmp", 296-166, 290-16+100}
     };
-    switch((*data).difficultyInformation) {
+    switch((*data).difficultyInformation) { //
     case 'e':
         images[2].fileName = "resource/difficulty/weekend_night_locked.bmp";
     case 'n':
@@ -310,6 +319,9 @@ void printTextMaze() { //print maze in text under image.
             if (i != 39)printf("\n");
     }
 }
+/** @brief change position of bottle picture by keyboard input
+*  @param position of bottle (nowX, nowY) image pointer for change position
+*/
 int moveCharacter(int * nowX, int *nowY, Image *images) {
     int key = getch();
 
@@ -336,6 +348,10 @@ int moveCharacter(int * nowX, int *nowY, Image *images) {
             break;
     }
 }
+/** @brief maze with no second grade
+*  @param image pointer for control image
+*  @return 0 - gamefail and exit / 1 - gamefail and replay / 2 - maze clear
+*/
 int easyMaze(Image *images) {
     initLayer();
     imageLayer.imageCount = 10;
@@ -364,6 +380,10 @@ int easyMaze(Image *images) {
     }
 
 }
+/** @brief maze with second grade
+*  @param image pointer for control image
+*  @return 0 - gamefail and exit / 1 - gamefail and replay / 2 - maze clear
+*/
 int normalMaze(Image *images) {
     initLayer();
     imageLayer.imageCount = 10;
@@ -393,6 +413,10 @@ int normalMaze(Image *images) {
     }
 
 }
+/** @brief maze with second grade and blackout
+*  @param image pointer for control image
+*  @return 0 - gamefail and exit / 1 - gamefail and replay / 2 - maze clear
+*/
 int hardMaze(Image *images) {
     initLayer();
     imageLayer.imageCount = 10;
@@ -434,6 +458,10 @@ int hardMaze(Image *images) {
     }
 
 }
+/** @brief select maze difficulty by nowDifficulty
+*  @param image pointer for control image
+*  @return return value by maze (0 - gamefail and exit / 1 - gamefail and replay / 2 - maze clear)
+*/
 int maze(struct information data) {
     Image images[10] = {
         {"resource/maze/maze.bmp", 0, 0},
