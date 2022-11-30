@@ -161,6 +161,11 @@ void UserName(FILE *fp, char *nn) {
     }
 }
 /********************* SELECT GENDER *********************************/
+
+/** @brief page of selecting character's gender
+* @return none
+* @param fp : input character's gender in text file
+*/
 void selectGender(FILE *fp) {
     initLayer();
     Image images[4] = {
@@ -558,6 +563,10 @@ int gameClear(FILE *fp, struct information data) {
 
 /********************** BEFORE EATING *********************/
 
+/** @brief page of setting(preparing) for eating ramen - back part of room
+* @return roomFront() : pressed LEFT button, count : to check how much player setted
+* @param data : user information, window : 1 - open/ 0 - close, perfume :1 - used, fan : 1 - turn on / 0 - off, lock : 1 - lock / 0 - unlock
+*/
 int roomBack(struct information *data, int window, int perfume, int fan, int lock) {
     initLayer();
     Image images[5] = {
@@ -635,9 +644,9 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
     }
 }
 
-/** @brief page of setting(preparing) for eating ramen
+/** @brief page of setting(preparing) for eating ramen - front part of room
 * @return roomBack() : pressed RIGHT button, count : to check how much player setted
-* @param data : user information, window :
+* @param data : user information, window : 1 - open/ 0 - close, perfume :1 - used, fan : 1 - turn on / 0 - off, lock : 1 - lock / 0 - unlock
 */
 int roomFront(struct information *data, int window, int perfume, int fan, int lock) {
     initLayer();
