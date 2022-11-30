@@ -10,6 +10,8 @@ DWORD dwNOER;
 HANDLE CIN = 0;
 
 /*****************************>>>>> GAME SETING <<<<<<*********************************/
+
+
 void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) {
    if (weight == 0) weight = 900;
    size = (int)(size * RESOLUTION_MULTIPLIER);
@@ -35,6 +37,8 @@ void printText(HDC hdc, int x, int y, int size, int weight, COLORREF textColor, 
    printTextWithAngle(hdc, x, y, size, weight, 0, textColor, align, text);
 }
 
+/** @brief initalize imagelayer
+*/
 void initLayer() {
    imageLayer.initialize(&imageLayer);
    imageLayer.transparentColor = RGB(0, 255, 0);
@@ -59,17 +63,17 @@ void showTitle() {
     imageLayer.images = images;
 
     imageLayer.renderAll(&imageLayer);
-    int mouse_x, mouse_y, mouseOn = 0;
+    int on = 0;
     int key;
     while (1) {
         key = getch();
-        if (key == 13 && mouseOn == 1) {
+        if (key == 13 && on == 1) { // second ENTER -> go to next page
             break;
         }
         if (key == 13){
-            images[1].fileName = "resource/title/start_button_clicked.bmp";
+            images[1].fileName = "resource/title/start_button_clicked.bmp"; // first ENTER -> change color
             imageLayer.renderAll(&imageLayer);
-            mouseOn = 1;
+            on = 1;
             Sleep(300);
             key = 0;
         }
@@ -77,6 +81,10 @@ void showTitle() {
 }
 
 /******************** NEW / LOAD *************************/
+/** @brief make new nickname
+* @return none
+* @param file pointer and char array for write new nickname, ImageLayer for control image
+*/
 void newNickname(FILE* fp, char* nn, ImageLayer layer) {
 
     initLayer();
@@ -84,15 +92,13 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0},
         {"resource/text/textarea.bmp", 150, 300}
-    }; //      u    ?        ?   ?  ]   .
+    };
     imageLayer.renderAll(&imageLayer);
     int len = 0;
     char pressedKey;
     printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, (" ̸     Է  ϼ   (8~14                 մϴ .)"));
 
     while (3) {
-        //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-
         initLayer();
         imageLayer.renderAll(&imageLayer);
         printText(layer._consoleDC, 300, 450, 60, 0, RGB(0, 0, 0), TA_LEFT, (" ̸     Է  ϼ   (8~14                 մϴ .)"));
@@ -102,21 +108,20 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
 
         pressedKey = _getch();
 
-        if (pressedKey == 13) {
-            if (len == 0) continue;
+        if (pressedKey == 13) { // ENTER -> go to next page
+            if (len == 0) continue; // if nothing on nickname, not go to next page
             fprintf(fp, "%s\n", nn);
-            selectGender(fp);
+            selectGender(fp); // next page : select gender
             break;
         }
-        if (pressedKey == '\b') {
-            if (len == 0) continue;
+        if (pressedKey == '\b') { // backspace -> delete character
+            if (len == 0) continue; // if there is nothing on nickname, do nothing
             len--;
             nn[len] = NULL;
             continue;
         }
 
-        if (len > 13) {
-            //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+        if (len > 13) { // 14 character exceed
             printText(layer._consoleDC, 100, 100, 60, 0, RGB(0, 0, 0), TA_LEFT, ("14    ʰ  Դϴ ."));
             while (3) {
                 pressedKey = _getch();
@@ -133,7 +138,10 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
     }
 }
 
-
+/** @brief check data for load, and ask user for load or new
+* @return none
+* @param file pointer and char array for write new nickname
+*/
 void UserName(FILE *fp, char *nn) {
     initLayer();
     Image images[5] = {
@@ -148,8 +156,7 @@ void UserName(FILE *fp, char *nn) {
 
     char ch;
     int cnt = 0;
-    while (fscanf(fp, "%c", &ch) != EOF)
-        cnt++;
+    while (fscanf(fp, "%c", &ch) != EOF) cnt++; // check if there is data for load
     if (cnt == 0) {
         newNickname(fp, nn, imageLayer);
     }
