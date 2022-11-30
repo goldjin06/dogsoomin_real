@@ -1,5 +1,8 @@
 #include "define.h"
-
+/**
+project name : Vision Passion Ramen
+simple explanation : Let's eat ramen in domitary and don't be caught by teacher.
+*/
 int main()
 {
     srand(time(NULL));
