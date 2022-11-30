@@ -58,7 +58,7 @@ void showTitle() {
         {"resource/background/start_background.bmp", 0, 0},
         {"resource/title/start_button.bmp", 700, 500},
         {"resource/title/title_text.bmp", 250, 50},
-    };
+    }; // first element is at the bottom
     imageLayer.imageCount = 4;
     imageLayer.images = images;
 
@@ -92,7 +92,7 @@ void newNickname(FILE* fp, char* nn, ImageLayer layer) {
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0},
         {"resource/text/textarea.bmp", 150, 300}
-    };
+    }; // first element is at the bottom
     imageLayer.renderAll(&imageLayer);
     int len = 0;
     char pressedKey;
@@ -147,7 +147,7 @@ void UserName(FILE *fp, char *nn) {
     Image images[5] = {
         {"resource/background/start_background.bmp", 0, 0},
         {"resource/text/textarea.bmp", 150, 300}
-    };
+    }; // first element is at the bottom
 
     imageLayer.imageCount = 2;
     imageLayer.images = images;
@@ -186,7 +186,7 @@ void selectGender(FILE *fp) {
         {"resource/gender/character_girl.bmp", 656, 272},
         {"resource/gender/character_boy.bmp",  1136, 272},
         {"resource/gender/character_girl_selected.bmp", 640, 272-16}
-    };
+    }; // first element is at the bottom
     imageLayer.imageCount = 4;
     imageLayer.images = images;
     imageLayer.renderAll(&imageLayer);
@@ -232,8 +232,6 @@ void selectGender(FILE *fp) {
 /** @brief read name,gender,difficulty data in "data.txt"
 *  @param file pointer, struct information for submit
 */
-
-
 void readData(FILE *fp, struct information *data) {
     fseek(fp,0,SEEK_SET); // go to first line
     fscanf(fp,"%s\n",(*data).name); // first line -> name
@@ -247,8 +245,6 @@ void readData(FILE *fp, struct information *data) {
 /** @brief page : selecting stage
 *  @param struct information for load data
 */
-
-
 void selectStage(struct information *data) {
     initLayer();
     Image images[7] = {
@@ -257,7 +253,7 @@ void selectStage(struct information *data) {
         {"resource/difficulty/weekend_night.bmp", 792, 290+100},
         {"resource/difficulty/weekday.bmp", 1288+150, 290+100},
         {"resource/difficulty/selected.bmp", 296-166, 290-16+100}
-    };
+    }; // first element is at the bottom
     switch((*data).difficultyInformation) { // lock the level which user can't play yet
     case 'e':
         images[2].fileName = "resource/difficulty/weekend_night_locked.bmp";
@@ -486,7 +482,7 @@ int maze(struct information data) {
         {"resource/maze/water.bmp", 1950, 170,3},
         {"resource/maze/second_grade.bmp", 928, 384,4},
         {"resource/maze/second_grade.bmp", 2032, 608,4}
-    };
+    }; // first element is at the bottom
 
     switch (data.nowDifficulty) {
     case 0:
@@ -516,7 +512,7 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
         {"resource/room_back/window_closed_day.bmp",  1008, 64},
         {"resource/room_back/perfume.bmp", 1072, 912},
         {"resource/room_back/go.bmp", 2080-176, 1040},
-    };
+    }; // first element is at the bottom
 
     window %= 2;
     if(window == 1) {
@@ -598,7 +594,7 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
         {"resource/room_front/perfume.bmp", 1136, 784},
         {"resource/room_front/door_handle.bmp", 736, 560},
         {"resource/room_front/go.bmp", 2080-176, 1040},
-    }; //      u    ?        ?   ?     .
+    }; // first element is at the bottom
 
     fan %= 2;
     lock %= 2;
@@ -681,11 +677,11 @@ int eatRamen(struct information *data, int prepare) {
 
     int status = 0;
 
-    if((*data).nowDifficulty == 0)
+    if((*data).nowDifficulty == 0) // easy
         status = easyEatRamen(&data, prepare);
-    else if((*data).nowDifficulty == 1)
+    else if((*data).nowDifficulty == 1) // normal
         status = normalEatRamen(&data, prepare);
-    else if((*data).nowDifficulty == 2)
+    else if((*data).nowDifficulty == 2) // hard
         status = hardEatRamen(&data, prepare);
 
     return status;
@@ -706,7 +702,7 @@ int easyEatRamen(struct information *data, int prepare) {
         {"resource/eat_ramen/eating1.bmp", 800, 720},
         {},
         {"resource/eat_ramen/knock.bmp",785,140,8}
-    };
+    }; // first element is at the bottom
     images[6].isHide = 1;
 
     imageLayer.imageCount = 7;
@@ -718,7 +714,7 @@ int easyEatRamen(struct information *data, int prepare) {
     int teacher = 1; // 1 : not comming, 2 : knocking, 3 : coming
 
     srand(time(NULL));
-    if(prepare == 0){
+    if(prepare == 0){ // fail -> At least one must be done
         PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
         Sleep(700);
         images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
@@ -732,7 +728,7 @@ int easyEatRamen(struct information *data, int prepare) {
     while(1) {
 
 
-        domi_teacher = rand() % 10;
+        domi_teacher = rand() % 10; // cycle that teacher comes in(random)
 
         if (teacher == 1 && count%10 == domi_teacher) {
                 teacher = 2;
@@ -743,7 +739,7 @@ int easyEatRamen(struct information *data, int prepare) {
         else if (teacher == 2) {
                 teacher = 3;
         }
-        if (teacher == 3 && isHide == 0) return gameFail(); // door open
+        if (teacher == 3 && isHide == 0) return gameFail(); // door open but, didn't hide
         if (teacher == 3) {
             images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
             images[6].isHide = 1;
@@ -755,7 +751,7 @@ int easyEatRamen(struct information *data, int prepare) {
 
             imageLayer.renderAll(&imageLayer);
             teacher = 1;
-        }
+        } // door open and hid the ramen
 
         key = getch();
         switch(key) {
@@ -772,7 +768,7 @@ int easyEatRamen(struct information *data, int prepare) {
             if(count == 1) {
                 images[4].fileName = "resource/eat_ramen/eating2.bmp";
             }
-            else if(count == 5) {// have to change number
+            else if(count == 5) {
                 images[1].fileName = "resource/eat_ramen/hunger_gauge15.bmp";
                 images[4].fileName = "resource/eat_ramen/eating2.bmp";
             }
@@ -814,7 +810,7 @@ int easyEatRamen(struct information *data, int prepare) {
             imageLayer.renderAll(&imageLayer);
             break;
         }
-        if (count >= 68) return 2;
+        if (count >= 68) return 2; // stage clear
     }
 }
 
@@ -833,7 +829,7 @@ int normalEatRamen(struct information *data, int prepare) { // page of eating ra
         {"resource/eat_ramen/eating1.bmp", 800, 720},
         {},
         {"resource/eat_ramen/knock.bmp",785,140,8}
-    };
+    }; // first element is at the bottom
     images[6].isHide = 1;
 
     imageLayer.imageCount = 7;
@@ -845,7 +841,7 @@ int normalEatRamen(struct information *data, int prepare) { // page of eating ra
     int teacher = 1; // 1 : not comming, 2 : knocking, 3 : coming
 
     srand(time(NULL));
-    if(prepare < 2){
+    if(prepare < 2){ // fail -> At least two must be done
         PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
         Sleep(700);
         images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
@@ -858,7 +854,7 @@ int normalEatRamen(struct information *data, int prepare) { // page of eating ra
 
     while(1) {
 
-        domi_teacher = rand() % 8;
+        domi_teacher = rand() % 8; // cycle that teacher comes in(random)
 
         if (teacher == 1 && count%8 == domi_teacher) {
                 teacher = 2;
@@ -870,7 +866,7 @@ int normalEatRamen(struct information *data, int prepare) { // page of eating ra
                 teacher = 3;
 
         }
-        if (teacher == 3 && isHide == 0) return gameFail(); // door open
+        if (teacher == 3 && isHide == 0) return gameFail(); // door open but, didn't hide
         if (teacher == 3) {
             images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
             images[5].x = 512;
@@ -882,7 +878,7 @@ int normalEatRamen(struct information *data, int prepare) { // page of eating ra
 
             imageLayer.renderAll(&imageLayer);
             teacher = 1;
-        }
+        } // door open and hid the ramen
 
         key = getch();
         switch(key) {
@@ -899,7 +895,7 @@ int normalEatRamen(struct information *data, int prepare) { // page of eating ra
             if(count == 1) {
                 images[4].fileName = "resource/eat_ramen/eating2.bmp";
             }
-            else if(count == 8) {// have to change number
+            else if(count == 8) {
                 images[1].fileName = "resource/eat_ramen/hunger_gauge15.bmp";
                 images[4].fileName = "resource/eat_ramen/eating2.bmp";
             }
@@ -941,7 +937,7 @@ int normalEatRamen(struct information *data, int prepare) { // page of eating ra
             imageLayer.renderAll(&imageLayer);
             break;
         }
-        if (count >= 80) return 2;
+        if (count >= 80) return 2; // stage clear
     }
 }
 
@@ -960,7 +956,7 @@ int hardEatRamen(struct information *data, int prepare) {
         {"resource/eat_ramen/eating1.bmp", 800, 720},
         {},
         {"resource/eat_ramen/knock.bmp",785,140,8}
-    };
+    }; // first element is at the bottom
     images[6].isHide = 1;
 
     imageLayer.imageCount = 7;
@@ -972,7 +968,7 @@ int hardEatRamen(struct information *data, int prepare) {
     int teacher = 1; // 1 : not comming, 2 : knocking, 3 : coming
 
     srand(time(NULL));
-    if(prepare < 4){
+    if(prepare < 4){ // fail -> At least four must be done
         PlaySound("sound/knocking.wav",NULL,SND_FILENAME|SND_ASYNC);
         Sleep(700);
         images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
@@ -985,7 +981,7 @@ int hardEatRamen(struct information *data, int prepare) {
 
     while(1) {
 
-        domi_teacher = rand() % 5;
+        domi_teacher = rand() % 5; // cycle that teacher comes in(random)
 
         if (teacher == 1 && count%5 == domi_teacher) {
                 teacher = 2;
@@ -995,9 +991,8 @@ int hardEatRamen(struct information *data, int prepare) {
         } // knocking
         else if (teacher == 2) {
                 teacher = 3;
-
         }
-        if (teacher == 3 && isHide == 0) return gameFail(); // door open
+        if (teacher == 3 && isHide == 0) return gameFail(); // door open but, didn't hide
         if (teacher == 3) {
             images[5].fileName = "resource/eat_ramen/view2_dooropen.bmp";
             images[5].x = 512;
@@ -1009,7 +1004,7 @@ int hardEatRamen(struct information *data, int prepare) {
 
             imageLayer.renderAll(&imageLayer);
             teacher = 1;
-        }
+        }  // door open and hid the ramen
 
         key = getch();
         switch(key) {
@@ -1026,7 +1021,7 @@ int hardEatRamen(struct information *data, int prepare) {
             if(count == 1) {
                 images[4].fileName = "resource/eat_ramen/eating2.bmp";
             }
-            else if(count == 15) {// have to change number
+            else if(count == 15) {
                 images[1].fileName = "resource/eat_ramen/hunger_gauge15.bmp";
                 images[4].fileName = "resource/eat_ramen/eating2.bmp";
             }
@@ -1068,7 +1063,7 @@ int hardEatRamen(struct information *data, int prepare) {
             imageLayer.renderAll(&imageLayer);
             break;
         }
-        if (count >= 100) return 2;
+        if (count >= 100) return 2;  // stage clear
     }
 }
 
@@ -1086,7 +1081,7 @@ int gameFail() {
         {"resource/clear/restart_button.bmp",1400,800},
         {"resource/clear/restart_button_clicked.bmp",1400,800},
         {"resource/fail/report.bmp",160,50}
-    };
+    }; // first element is at the bottom
     imageLayer.imageCount = 6;
     imageLayer.images = images;
     int key, select = 0;
@@ -1142,7 +1137,7 @@ int gameClear(FILE *fp, struct information data) { // almost same with gameFail
         {"resource/clear/restart_button.bmp",1400,800},
         {"resource/clear/restart_button_clicked.bmp",1400,800},
         {"resource/jmt.bmp",300,300,3},
-    }; //      u    ?        ?   ?     .
+    }; // first element is at the bottom
     imageLayer.imageCount = 6;
     imageLayer.images = images;
     int key, select = 0;
