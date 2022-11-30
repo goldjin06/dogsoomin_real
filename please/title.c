@@ -326,6 +326,7 @@ void printTextMaze() { //print maze in text under image.
             if (i != 39)printf("\n");
     }
 }
+
 /** @brief change position of bottle picture by keyboard input
 *  @param position of bottle (nowX, nowY) image pointer for change position
 */
@@ -355,6 +356,7 @@ int moveCharacter(int * nowX, int *nowY, Image *images) {
             break;
     }
 }
+
 /** @brief maze with no second grade
 *  @param image pointer for control image
 *  @return 0 - gamefail and exit / 1 - gamefail and replay / 2 - maze clear
@@ -387,6 +389,7 @@ int easyMaze(Image *images) {
     }
 
 }
+
 /** @brief maze with second grade
 *  @param image pointer for control image
 *  @return 0 - gamefail and exit / 1 - gamefail and replay / 2 - maze clear
@@ -420,6 +423,7 @@ int normalMaze(Image *images) {
     }
 
 }
+
 /** @brief maze with second grade and blackout
 *  @param image pointer for control image
 *  @return 0 - gamefail and exit / 1 - gamefail and replay / 2 - maze clear
@@ -465,6 +469,7 @@ int hardMaze(Image *images) {
     }
 
 }
+
 /** @brief select maze difficulty by nowDifficulty
 *  @param image pointer for control image
 *  @return return value by maze (0 - gamefail and exit / 1 - gamefail and replay / 2 - maze clear)

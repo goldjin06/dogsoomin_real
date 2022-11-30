@@ -1,6 +1,6 @@
 #include "define.h"
 
-/** @brief
+/** @brief makes cursor disappear
 * @return none
 * @param none
 */
