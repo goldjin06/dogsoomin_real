@@ -11,7 +11,7 @@ HANDLE CIN = 0;
 
 /*****************************>>>>> GAME SETING <<<<<<*********************************/
 
-
+/***********************print text ***********************************/
 void printTextWithAngle(HDC hdc, int x, int y, int size, int weight, int angle, COLORREF textColor, int align, char* text) {
    if (weight == 0) weight = 900;
    size = (int)(size * RESOLUTION_MULTIPLIER);
@@ -537,7 +537,7 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
         key = getch();
         count = window + perfume + fan + lock;
         switch (key) {
-        case ENTER:
+        case ENTER: // press enter two time to go to next page
             enter++;
             if(enter == 1)
                 images[4].fileName = "resource/room_back/go_pressed.bmp";
@@ -545,10 +545,10 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
                 return count;
             imageLayer.renderAll(&imageLayer);
             break;
-        case LEFT:
+        case LEFT: // left key -> change perspective of room
             return roomFront(data, window, perfume, fan, lock);
             break;
-        case WINDOW:
+        case WINDOW: // w key -> open/close window (sound, image)
             window++;
             window %= 2;
             if(window == 1) {
@@ -568,7 +568,7 @@ int roomBack(struct information *data, int window, int perfume, int fan, int loc
             imageLayer.renderAll(&imageLayer);
             Sleep(300);
             break;
-        case PERFUME:
+        case PERFUME:// p key -> perfume (sound, image)
             images[3].fileName = "resource/room_back/perfume_selected.bmp";
             imageLayer.renderAll(&imageLayer);
             PlaySound("sound/perfume.wav",NULL,SND_FILENAME|SND_ASYNC);
@@ -617,7 +617,7 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
         key = getch();
         count = window + perfume + fan + lock;
         switch (key) {
-        case 'E':
+        case 'E': // enter -> go to next page (press two times)
         case ENTER:
             enter++;
             if(enter == 1)
@@ -627,10 +627,10 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
                 return count;
             imageLayer.renderAll(&imageLayer);
             break;
-        case 'R':
+        case 'R': // right key -> change perspective of room
         case RIGHT:
             return roomBack(data, window, perfume, fan, lock);
-        case FANBUTTON:
+        case FANBUTTON: // f key -> turn on/off the fan (sound, image)
             fan++;
             fan %= 2;
             if(fan == 1)
@@ -641,7 +641,7 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
             imageLayer.renderAll(&imageLayer);
             Sleep(300);
             break;
-        case PERFUME:
+        case PERFUME: // p key -> perfume (sound, image)
             images[3].fileName = "resource/room_front/perfume_selected.bmp";
             imageLayer.renderAll(&imageLayer);
             PlaySound("sound/perfume.wav",NULL,SND_FILENAME|SND_ASYNC);
@@ -650,7 +650,8 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
             imageLayer.renderAll(&imageLayer);
             perfume = 1;
             break;
-        case LOCKDOOR:
+        case LOCKDOOR: // d key -> lock/unlock door (sound, image)
+        case LOCKDOOR: // d key -> lock/unlock door (sound, image)
             lock++;
             lock %= 2;
             if(lock == 1)
@@ -667,7 +668,7 @@ int roomFront(struct information *data, int window, int perfume, int fan, int lo
 }
 
 
-/************************** EAT ****************************/
+/************************** EATING ****************************/
 
 /** @brief execute correct mode of eating ramen
 * @return 0 : quit, 1 : retry, 2 : stage clear
