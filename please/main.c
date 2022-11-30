@@ -1,12 +1,10 @@
 #include "define.h"
-// ﾈｭ      == 2160 * 1280
-
 
 int main()
 {
     srand(time(NULL));
 
-    system("chcp 65001");
+    system("chcp 65001"); // to save hanguel
     system("cls");
 
     struct information data;
@@ -18,7 +16,7 @@ int main()
     ClearCursor();
     ResizeConsole();
     showTitle();
-    FILE *fp = fopen("data/user.txt","r+");
+    FILE *fp = fopen("data/user.txt","r+"); // save player's data
     char nn[15] = {0, };
     UserName(fp,nn);
 
@@ -28,11 +26,11 @@ int main()
         int status = maze(data);
         switch (status) {
         case 0:
-            return 0;
+            return 0;   // quit
         case 1:
-            continue;
+            continue;   // menu(restart)
         case 2:
-            break;
+            break;      // go to next screen
         }
 
         int prepare = roomFront(&data,window,perfume,fan,lock);  // how much the player prepared of four(window, perfume, fan, lockdoor)
@@ -41,18 +39,18 @@ int main()
 
         switch (status) {
         case 0:
-            return 0;
+            return 0;   // quit
         case 1:
-            continue;
+            continue;   // menu(restart)
         case 2:
-            break;
+            break;      // stage clear
         }
         status = gameClear(fp, data);
         switch (status) {
         case 0:
-            return 0;
+            return 0;   // quit game
         case 1:
-            continue;
+            continue;   // menu
        }
     }
 
